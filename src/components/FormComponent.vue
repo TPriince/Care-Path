@@ -78,7 +78,7 @@ const registerUser = async () => {
     try {
         const createdUser = await createUserWithEmailAndPassword(auth, state.email, state.password);
         const newUser = await createdUser;
-        console.log(newUser)
+        // console.log(newUser);
         const userRef = doc(db, 'users', newUser.user.uid)
         await setDoc(userRef, {
             email: state.email,
@@ -139,7 +139,7 @@ const logInUser = () => {
             state.loading = false;
             // Signed in 
             const user = userCredential.user;
-            console.log(user);
+            // console.log(user);
             router.push('/dashboard');
         })
         .catch(err => {
