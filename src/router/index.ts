@@ -4,6 +4,8 @@ import SignUpView from "../views/SignUpView.vue";
 import SignInView from "../views/SignInView.vue";
 import DashboardView from "../views/DashboardView.vue";
 import ForgotPasswordView from "../views/ForgotPasswordView.vue";
+import ProfileView from "../views/ProfileView.vue";
+import MainDashboardView from "../views/MainDashboardView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,6 +35,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       authIsRequired: true,
     },
+    children: [
+      {
+        path: "main",
+        name: "MainDashboard",
+        component: MainDashboardView,
+      }
+    ]
     // beforeEnter: (to, from) => {
     //     if (!isAuthenticated()) {
     //         return {

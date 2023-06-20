@@ -36,7 +36,7 @@ export default defineComponent({
     const showNavBar = ref(true);
 
     const onCheckRoute = () => {
-      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard') {
+      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'MainDashboard') {
         showNavBar.value = false;
       } else {
         showNavBar.value = true;
@@ -44,7 +44,6 @@ export default defineComponent({
     }
 
     watch(() => route.name, () => {
-      // console.log('Route name:', route.name, 'showNavBar:', showNavBar.value);
       onCheckRoute();
     })
 
@@ -131,10 +130,8 @@ body {
   -webkit-text-size-adjust: 100%;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  /* background: linear-gradient(lightblue, #CBE1DC); */
-  /* background: #eefffa; */
   background-color: var(--main-bg-color);
-  min-height: 100vh;
+  height: 100%;
   font-size: var(--normal-font-size);
 }
 

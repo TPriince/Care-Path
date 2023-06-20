@@ -106,7 +106,7 @@ header {
 .form__title::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     width: 28px;
     height: 2px;
@@ -132,20 +132,20 @@ input {
     border: 0;
     border-radius: 8px;
     width: 100%;
-    font-size: 0.7rem;
-    text-indent: 18px;
-    padding: 8px;
+    font-size: 0.9rem;
+    text-indent: 22px;
+    padding: 10px;
 }
 
 input::placeholder {
-    font-size: 13px;
+    font-size: 0.9rem;
 }
 
 input:focus {
     outline: none;
 }
 
-form>div {
+form > div {
     margin-bottom: 1.5rem;
 }
 
@@ -155,8 +155,8 @@ form>div {
 
 .bxs-envelope {
     position: absolute;
-    top: 7px;
-    left: 6px;
+    top: 12px;
+    left: 8px;
     color: rgb(74, 68, 68);
 }
 
@@ -177,6 +177,7 @@ label {
     background-color: var(--dark-blue);
     color: white;
     margin-bottom: 20px;
+    margin-top: 1rem;
 }
 
 .reset-btn:hover {
@@ -190,54 +191,34 @@ label {
 
 @media screen and (max-width: 800px) {
     form {
-        width: 300px;
+        width: 320px;
         padding: 22px;
     }
 
     header {
         margin-bottom: 25px;
     }
-
-    .form__title {
-        font-size: var(--h3-font-size);
-    }
-
-    input::placeholder {
-        font-size: 11px;
-    }
-
-    .bxs-envelope {
-        top: 8px;
-    }
-
-    label {
-        font-size: 0.8rem;
-        margin-bottom: 0.4rem;
-    }
-
-    .reset-btn {
-        padding: 0.4rem 0.8rem;
-    }
 }
 
 @media screen and (max-width: 768px) {
     form {
-        padding: 20px;
+        width: 300px;
+        padding: 21px;
     }
 
     .small-text {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     label {
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.4rem;
     }
 }
 
 @media screen and (max-width: 425px) {
     form {
-        width: 250px;
-        padding: 18px;
+        width: 350px;
+        padding: 20px;
     }
 
     header {
@@ -245,41 +226,14 @@ label {
     }
 
     .form__title {
-        font-size: var(--h4-font-size);
+        font-size: var(--h3-font-size);
     }
 
-    input {
-        font-size: 0.5rem;
-        text-indent: 14px;
-        padding: 6px;
-    }
-
-    input::placeholder {
-        font-size: 10px;
-    }
-
-    .bxs-envelope {
-        top: 7px;
-        left: 4px;
-        font-size: small;
-    }
-
-    label {
-        font-size: 0.8rem;
-        margin-bottom: 0.2rem;
-    }
-
-    form>div {
+    form > div {
         margin-bottom: 1rem;
     }
-
-    .reset-btn {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.7rem;
-    }
-
     .small-text {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 }
 </style>
