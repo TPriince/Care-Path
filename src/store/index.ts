@@ -9,8 +9,9 @@ export default createStore({
         firstName: '',
         lastName: '',
         email: '',
-        userInitials: '',
-        profileId: '',
+        firstNameInitial: '',
+        profilePicture: '',
+        // profileId: '',
       }
   },
   getters: {},
@@ -22,11 +23,10 @@ export default createStore({
       state.currentUser.firstName = payload.firstName;
       state.currentUser.lastName = payload.lastName;
       state.currentUser.email = payload.email;
-      console.log(state.currentUser)
+      state.currentUser.firstNameInitial = payload.firstName[0];
+      state.currentUser.profilePicture = payload.profilePicture;
+      // console.log(state.currentUser)
     },
-    setCurrentUserInitials(state, payload) {
-      state.currentUser.userInitials = payload.firstName.charAt(0) + payload.lastName.charAt(0);
-    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -34,8 +34,10 @@ export default createStore({
       if (currentUser) {
         const userRef = doc(db, "users", currentUser.uid);
         const userSnap = await getDoc(userRef);
-        commit("setCurrentUser", userSnap.data());
-        commit("setCurrentUserInitials", userSnap.data());
+        // console.log(userSnap.data())
+        if (userSnap.data()?.firstName) {
+          commit("setCurrentUser", userSnap.data());
+        }
       } else {
         console.log("No user is signed in.");
       }

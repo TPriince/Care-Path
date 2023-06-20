@@ -23,6 +23,7 @@ export default defineComponent({
 
     onAuthStateChanged(auth, (user) => {
       store.commit('updateUser', user)
+      console.log(user)
       if (user) {
         console.log(user.uid)
         store.dispatch('getCurrentUser')

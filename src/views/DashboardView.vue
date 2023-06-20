@@ -13,7 +13,10 @@
                 <div class="profile">
                     <div>ICON</div>
                     <div>ICON</div>
-                    <div class="user-initials">{{ userInitials }}</div>
+                    <div class="user-profile">
+                        <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
+                        <span v-else>{{ userFirstNameInitial }}</span>
+                    </div>
                 </div>
             </div>
         </header>
@@ -173,11 +176,13 @@ export default defineComponent({
 
         const activeLink = ref('dashboard');
 
-        const userInitials = computed(() => store.state.currentUser.userInitials);
+        const userProfilePicture = computed(() => store.state.currentUser.profilePicture);
+        const userFirstNameInitial = computed(() => store.state.currentUser.firstNameInitial);
 
         return {
             activeLink,
-            userInitials,
+            userProfilePicture,
+            userFirstNameInitial,
             handleSignOut
         }
     }
@@ -340,7 +345,7 @@ export default defineComponent({
     gap: 10px;
 }
 
-.user-initials {
+.user-profile {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -349,6 +354,13 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+    object-fit: contain;
+}
+
+.user-profile img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
 }
 
 /* Main content */

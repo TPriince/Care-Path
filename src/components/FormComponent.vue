@@ -8,6 +8,15 @@
                 <RouterLink to="/sign-in">Sign In</RouterLink>
             </h1>
         </header>
+        <div class="google-sign-in" v-if="activeLink === 'sign-in'" @click="googleSignIn">
+            <i class='bx bxl-google'></i>
+            <p>Sign In with Google</p>
+        </div>
+        <div class="or-intersection" v-if="activeLink === 'sign-in'">
+            <hr />
+            <p class="or">or</p>
+            <hr />
+        </div>
         <div v-if="activeLink === 'sign-up'">
             <label for="first-name">First Name</label>
             <div class="input-wrapper" >
@@ -49,10 +58,12 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { db, auth } from '../firebase/config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore'
 
 const props = defineProps({
     activeLink: {
@@ -61,6 +72,7 @@ const props = defineProps({
     }
 })
 
+const store = useStore();
 const router = useRouter();
 
 const passwordType = ref('password');
@@ -84,6 +96,7 @@ const registerUser = async () => {
             email: state.email,
             firstName: state.firstName,
             lastName: state.lastName,
+            profilePicture: '',
         })
         state.loading = false;
         router.push('/sign-in');
@@ -106,31 +119,6 @@ const registerUser = async () => {
             }, 3000);
         }
     }
-
-        // .then(userCredential => {
-        //     state.loading = false;
-        //     // Signed up
-        //     const user = userCredential.user;
-        //     console.log(user);
-        //     router.push('/sign-in');
-        // })
-        // .catch(err => {
-        //     state.loading = false;
-        //     console.log(err.message);
-        //     if (err.message.includes("email-already-in-use")) {
-        //         console.log("Email already in use");
-        //         state.errorMessage = "Email already in use";
-        //         setTimeout(() => {
-        //             state.errorMessage = "";
-        //         }, 3000);
-        //     } else if (err.message.includes("weak-password")) {
-        //         console.log("Weak password");
-        //         state.errorMessage = "Password should be at least 6 characters";
-        //         setTimeout(() => {
-        //             state.errorMessage = "";
-        //         }, 3000);
-        //     }
-        // })
 }
 
 const logInUser = () => {
@@ -163,6 +151,32 @@ const logInUser = () => {
         })
 }
 
+// Log in with Google
+const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+        const user = await signInWithPopup(auth, provider)
+        // console.log(user);
+        const userRef = doc(db, 'users', user.user.uid);
+        const docSnap = await getDoc(userRef);
+        if (!docSnap.exists() && user.user.displayName) {
+            await setDoc(userRef, {
+                email: user.user.email,
+                firstName: user.user.displayName.split(' ')[0],
+                lastName: user.user.displayName.split(' ')[1],
+                profilePicture: user.user.photoURL,
+            })
+            store.dispatch('getCurrentUser')
+            router.push('/dashboard');
+        } else {
+            console.log("User already exists");
+            router.push('/dashboard');
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 const handleSubmit = () => {
     if (props.activeLink === 'sign-up') {
         state.loading = true;
@@ -190,6 +204,38 @@ header {
     display: flex;
     gap: 1rem;
     margin-bottom: 35px;
+}
+
+.google-sign-in {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+
+.google-sign-in:hover {
+    background-color: #eeeaea;
+}
+
+
+.bxl-google {
+    font-size: 1.5rem;
+}
+
+.or-intersection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.or-intersection hr {
+    width: 100%;
 }
 
 .form__title {
@@ -232,13 +278,13 @@ input {
     border: 0;
     border-radius: 8px;
     width: 100%;
-    font-size: 0.7rem;
-    text-indent: 20px;
-    padding: 8px;
+    font-size: 0.9rem;
+    text-indent: 22px;
+    padding: 10px;
 }
 
 input::placeholder {
-    font-size: 13px;
+    font-size: 0.9rem;
 }
 
 input:focus {
@@ -256,15 +302,15 @@ form > div {
 .bxs-user, .bxs-envelope,
 .bxs-lock-alt {
     position: absolute;
-    top: 8px;
-    left: 7px;
+    top: 12px;
+    left: 8px;
     color: rgb(74, 68, 68);
 }
 
 .bx-show, .bx-low-vision {
     position: absolute;
-    top: 8px;
-    right: 7px;
+    top: 12px;
+    right: 8px;
     color: rgb(74, 68, 68);
     cursor: pointer;
 }
@@ -300,53 +346,34 @@ label {
 
 @media screen and (max-width: 800px) {
     form {
-        width: 300px;
+        width: 320px;
         padding: 22px;
     }
 
     header {
         margin-bottom: 25px;
     }
-    .form__title {
-        font-size: var(--h3-font-size);
-    }
-
-    input::placeholder {
-        font-size: 11px;
-    }
-
-    .bxs-envelope, .bxs-lock-alt {
-        top: 8px;
-    }
-
-    label {
-        font-size: 0.8rem;
-        margin-bottom: 0.4rem;
-    }
-
-    .sign-up__btn {
-        padding: 0.4rem 0.8rem;
-    }
 }
 
 @media screen and (max-width: 768px) {
     form {
-        padding: 20px;
+        width: 380px;
+        padding: 21px;
     }
 
     .small-text {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     label {
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.4rem;
     }
 }
 
 @media screen and (max-width: 425px) {
     form {
-        width: 280px;
-        padding: 18px;
+        width: 350px;
+        padding: 20px;
     }
 
     header {
@@ -354,41 +381,11 @@ label {
     }
 
     .form__title {
-        font-size: var(--h4-font-size);
-    }
-
-    input {
-        font-size: 0.6rem;
-        text-indent: 15px;
-        padding: 7px;
-    }
-
-    input::placeholder {
-        font-size: 11px;
-    }
-
-    .bxs-user, .bxs-envelope, .bxs-lock-alt {
-        top: 8px;
-        left: 5px;
-        font-size: small;
-    }
-
-    label {
-        font-size: 0.9rem;
-        margin-bottom: 0.2rem;
+        font-size: var(--h3-font-size);
     }
 
     form > div {
-        margin-bottom: 0.6rem;
-    }
-
-    form > div:nth-child(5) {
-        margin-bottom: 1rem;
-    }
-
-    .sign-up__btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
     }
 
     .small-text {
