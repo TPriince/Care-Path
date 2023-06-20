@@ -13,7 +13,7 @@
                 <div class="profile">
                     <div>ICON</div>
                     <div>ICON</div>
-                    <div class="user-initials">JK</div>
+                    <div class="user-initials">{{ userInitials }}</div>
                 </div>
             </div>
         </header>
@@ -60,7 +60,7 @@
         <main>
             <div class="overview">
                 <div class="title">
-                    <h1 class="section-title">Overview</h1>
+                    <h1 class="section__title">Overview</h1>
                     <select name="date" id="date" class="dropdown">
                         <option value="today">Today</option>
                         <option value="lastweek">Last week</option>
@@ -130,7 +130,7 @@
             </div>
             <div class="hospitals">
                 <div class="title">
-                    <h1 class="section-title">Hospitals</h1>
+                    <h1 class="section__title">Hospitals</h1>
                     <div class="add-hospital-section">
                         <select name="date" id="date" class="dropdown">
                             <option value="">Filter</option>
@@ -149,30 +149,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
+import { useStore } from 'vuex';
 // import { useRouter } from 'vue-router';
 
 export default defineComponent({
     setup() {
+        const store = useStore();
         // const router = useRouter();
-
-        // onAuthStateChanged(auth, (user) => {
-        //     if (user) {
-        //         // User is signed in
-        //         console.log('User is signed in');
-        //     } else {
-        //         // User is signed out
-        //         console.log('User is signed out');
-        //         router.push('/sign-in');
-        //     }
-        // });
 
         const handleSignOut = () => {
             signOut(auth)
                 .then(() => {
                     console.log('User signed out');
+                    window.location.reload();
                 })
                 .catch(err => {
                     console.log(err.message);
@@ -181,8 +173,11 @@ export default defineComponent({
 
         const activeLink = ref('dashboard');
 
+        const userInitials = computed(() => store.state.currentUser.userInitials);
+
         return {
             activeLink,
+            userInitials,
             handleSignOut
         }
     }
@@ -195,7 +190,7 @@ export default defineComponent({
     grid-template-areas: "header header header"
         "sidebar main main";
     grid-template-rows: 4rem 1fr;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 250px 0.5fr;
     height: 100vh;
     width: 100%;
     background-color: var(--whitish);
@@ -208,6 +203,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    /* width: 100%;
+    overflow: hidden; */
 }
 
 .active {
@@ -220,10 +217,11 @@ export default defineComponent({
 #dashboard .sidebar {
     grid-area: sidebar;
     padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     border-right: 2px solid lightgray;
+}
+
+.sidebar-bottom-items {
+    margin-top: 40px;
 }
 
 
@@ -248,7 +246,6 @@ export default defineComponent({
 .tools,
 .sidebar-bottom-items li {
     font-size: var(--small-font-size);
-    margin-bottom: 0;
 }
 
 
@@ -291,12 +288,12 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-left: auto; */
     width: calc(100% - 250px);
 }
 
 .search {
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     border-radius: 50px;
     background-color: rgb(218, 214, 214);
     display: flex;
@@ -358,7 +355,7 @@ export default defineComponent({
 #dashboard main {
     grid-area: main;
     padding: 0 40px;
-    overflow-y: scroll;
+    overflow: scroll;
 }
 
 .title {
@@ -369,11 +366,7 @@ export default defineComponent({
     margin-bottom: 10px;
 }
 
-/* .overview, .hospitals {
-    border: 1px solid var(--dark-blue);
-} */
-
-.section-title {
+.section__title {
     color: initial;
     font-size: var(--h2-font-size);
 }
@@ -405,11 +398,7 @@ export default defineComponent({
     height: auto;
     border-radius: 20px;
     padding: 20px;
-    background: var(--tealish);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    /* display: flex;
-    flex-direction: column;
-    justify-content: space-between; */
     cursor: pointer;
     transition: all 0.3s ease;
 }

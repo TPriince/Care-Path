@@ -233,7 +233,7 @@ input {
     border-radius: 8px;
     width: 100%;
     font-size: 0.7rem;
-    text-indent: 18px;
+    text-indent: 20px;
     padding: 8px;
 }
 
@@ -249,10 +249,6 @@ form > div {
     margin-bottom: 1rem;
 }
 
-form > div:nth-child(5) {
-    margin-bottom: 1.2rem;
-}
-
 .input-wrapper {
     position: relative;
 }
@@ -260,15 +256,15 @@ form > div:nth-child(5) {
 .bxs-user, .bxs-envelope,
 .bxs-lock-alt {
     position: absolute;
-    top: 7px;
-    left: 6px;
+    top: 8px;
+    left: 7px;
     color: rgb(74, 68, 68);
 }
 
 .bx-show, .bx-low-vision {
     position: absolute;
-    top: 7px;
-    right: 6px;
+    top: 8px;
+    right: 7px;
     color: rgb(74, 68, 68);
     cursor: pointer;
 }
@@ -290,6 +286,7 @@ label {
     background-color: var(--dark-blue);
     color: white;
     margin-bottom: 20px;
+    margin-top: 1rem;
 }
 
 .sign-up__btn:hover {
@@ -348,7 +345,7 @@ label {
 
 @media screen and (max-width: 425px) {
     form {
-        width: 250px;
+        width: 280px;
         padding: 18px;
     }
 
@@ -361,41 +358,41 @@ label {
     }
 
     input {
-        font-size: 0.5rem;
-        text-indent: 14px;
-        padding: 6px;
+        font-size: 0.6rem;
+        text-indent: 15px;
+        padding: 7px;
     }
 
     input::placeholder {
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .bxs-user, .bxs-envelope, .bxs-lock-alt {
-        top: 7px;
-        left: 4px;
+        top: 8px;
+        left: 5px;
         font-size: small;
     }
 
     label {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin-bottom: 0.2rem;
     }
 
     form > div {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
     }
 
     form > div:nth-child(5) {
-        margin-bottom: 0.8rem;
+        margin-bottom: 1rem;
     }
 
     .sign-up__btn {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
     }
 
     .small-text {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 }
 </style>

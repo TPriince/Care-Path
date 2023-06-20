@@ -113,7 +113,7 @@ export default defineComponent({
     font-size: var(--tiny-font-size);
     display: flex;
     align-items: center;
-    column-gap: 1rem;
+    gap: 1rem;
     margin-top: 10px;
     flex-wrap: wrap;
 }

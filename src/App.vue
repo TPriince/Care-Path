@@ -8,7 +8,7 @@ import { defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import {onAuthStateChanged} from 'firebase/auth';
 import { auth } from './firebase/config';
-// import { useStore } from 'vuex';
+import { useStore } from 'vuex';
 import NavBar from './components/NavBar.vue'
 
 export default defineComponent({
@@ -19,21 +19,18 @@ export default defineComponent({
   setup() {
 
     const route = useRoute();
+    const store = useStore();
 
     onAuthStateChanged(auth, (user) => {
+      store.commit('updateUser', user)
       if (user) {
-        console.log('User is signed in');
         console.log(user.uid)
-        console.log(auth.currentUser)
+        store.dispatch('getCurrentUser')
       } else {
         console.log('User is signed out');
       }
     }
     );
-
-    // const store = useStore();
-    // console.log(store.state.count)
-
 
     const showNavBar = ref(true);
 
@@ -184,7 +181,8 @@ h6 {
 
 .container {
   max-width: 80%;
-  margin-inline: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media screen and (max-width: 425px) {
