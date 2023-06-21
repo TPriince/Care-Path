@@ -101,9 +101,11 @@ const registerUser = async () => {
             profilePicture: '',
         })
         state.loading = false;
+        emit('isLoading', state.loading);
         router.push('/sign-in');
     } catch (error: any) {
         state.loading = false;
+        emit('isLoading', state.loading);
         console.log(error);
         if (error.message.includes("email-already-in-use")) {
             console.log("Email already in use");
@@ -134,12 +136,14 @@ const logInUser = () => {
     signInWithEmailAndPassword(auth, state.email, state.password)
         .then(userCredential => {
             state.loading = false;
+            emit('isLoading', state.loading);
             const user = userCredential.user;
             // console.log(user);
             router.push('/dashboard');
         })
         .catch(err => {
             state.loading = false;
+            emit('isLoading', state.loading);
             // console.log(err.message);
             if (err.message.includes("user-not-found")) {
                 console.log("User not found");
@@ -169,6 +173,7 @@ const googleSignIn = async () => {
     try {
         const user = await signInWithPopup(auth, provider)
         // console.log(user);
+        state.loading = true;
         emit('isLoading', true);
         const userRef = doc(db, 'users', user.user.uid);
         const docSnap = await getDoc(userRef);
@@ -180,15 +185,18 @@ const googleSignIn = async () => {
                 profilePicture: user.user.photoURL,
             })
             store.dispatch('getCurrentUser')
+            state.loading = false;
             emit('isLoading', false);
             router.push('/dashboard');
         } else {
             console.log("User already exists");
+            state.loading = false;
             emit('isLoading', false);
             router.push('/dashboard');
         }
     } catch(error) {
         console.log(error);
+        state.loading = false;
         emit('isLoading', false);
         state.errorMessage = "Something went wrong";
         setTimeout(() => {
@@ -198,13 +206,13 @@ const googleSignIn = async () => {
 }
 
 const handleSubmit = () => {
+    state.loading = true;
+    emit('isLoading', state.loading);
     if (props.activeLink === 'sign-up') {
-        state.loading = true;
         // console.log(state.email, state.password, state.lastName, state.firstName)
         registerUser();
 
     } else {
-        state.loading = true;
         logInUser();
     }
 }

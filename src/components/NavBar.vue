@@ -98,7 +98,7 @@ export default defineComponent({
     top: 0;
     left: 0;
     right: 0;
-    max-width: 1024px;
+    max-width: 1200px;
     margin: auto;
     display: flex;
     justify-content: space-between;

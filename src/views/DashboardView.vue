@@ -23,35 +23,39 @@
                 <li :class="{ active: activeLink === 'dashboard' }" @click="activeLink = 'dashboard'">
                     <span class="sidebar-icon"><i class='bx bxs-grid-alt'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Dashboard</span>
+                    <div class="tooltip">Dashboard</div>
                 </li>
                 <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
                     <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
+                    <div class="tooltip">Calendar</div>
                 </li>
                 <li :class="{ active: activeLink === 'appointments' }" @click="activeLink = 'appointments'">
                     <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Appointments</span>
+                    <div class="tooltip">Appointments</div>
                 </li>
                 <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
                     <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Statistics</span>
-                </li>
-                <li class="tools">
-                    <span>Tools</span>
+                    <div class="tooltip">Statistics</div>
                 </li>
                 <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
                     <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
+                    <div class="tooltip">Chat</div>
                 </li>
                 <li :class="{ active: activeLink === 'support' }" @click="activeLink = 'support'">
                     <span class="sidebar-icon"><i class='bx bx-support'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Support</span>
+                    <div class="tooltip">Support</div>
                 </li>
             </ul>
             <ul class="sidebar-bottom-items">
                 <li :class="{ active: activeLink === 'logout' }" @click="handleSignOut">
                     <span class="sidebar-icon"><i class='bx bx-log-out'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Log out</span>
+                    <div class="tooltip">Log out</div>
                 </li>
             </ul>
         </div>
@@ -135,6 +139,7 @@ export default defineComponent({
 
 .active .bxs-grid-alt,
 .active .bxs-calendar,
+.active .bxs-plus-square,
 .active .bx-stats,
 .active .bxs-conversation,
 .active .bx-support,
@@ -163,6 +168,7 @@ export default defineComponent({
     padding: 10px;
     border-radius: 10px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .sidebar-items li:hover,
@@ -171,9 +177,30 @@ export default defineComponent({
     cursor: pointer;
 }
 
-.tools,
 .sidebar-bottom-items li {
     font-size: var(--small-font-size);
+}
+
+.tooltip {
+    background-color: var(--sm-text-color);
+    color: #000000;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 90%;
+    width: 140px;
+    opacity: 0;
+}
+
+#dashboard.toggle-sidebar .sidebar {
+    overflow: visible;
+}
+
+#dashboard.toggle-sidebar .sidebar li:hover .tooltip {
+    opacity: 1;
 }
 
 .sidebar-icon {
@@ -309,6 +336,10 @@ export default defineComponent({
     .search-and-profile {
         gap: 5px;
     }
+
+    .search {
+        width: 80%;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -334,11 +365,7 @@ export default defineComponent({
     }
 
     .search {
-        width: 60%;
+        width: 70%;
     }
-}
-
-@media screen and (max-width: 400px) {
-
 }
 </style>
