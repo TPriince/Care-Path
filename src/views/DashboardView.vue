@@ -1,8 +1,8 @@
 <template>
-    <section id="dashboard">
+    <section id="dashboard" :class="toggleSideBar ? 'toggle-sidebar' : ''">
         <header>
             <div class="header-logo">
-                <i class='bx bx-menu'></i>
+                <i class='bx bx-menu' @click="toggleSideBar = !toggleSideBar"></i>
                 <RouterLink class="logo" to="/"><span class="logo-care">Care</span>Path</RouterLink>
             </div>
             <div class="search-and-profile">
@@ -11,8 +11,6 @@
                     <button class="search-icon__btn"><i class='bx bx-search-alt'></i></button>
                 </div>
                 <div class="profile">
-                    <div>ICON</div>
-                    <div>ICON</div>
                     <div class="user-profile">
                         <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
                         <span v-else>{{ userFirstNameInitial }}</span>
@@ -22,41 +20,39 @@
         </header>
         <div class="sidebar">
             <ul class="sidebar-items">
-                <li class="general">
-                    <span>General</span>
+                <li :class="{active: activeLink === 'dashboard'}" @click="activeLink = 'dashboard'">
+                    <span class="sidebar-icon"><i class='bx bxs-grid-alt'></i></span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Dashboard</span>
+                    <span class="sidebar-item smaller-screen">Dashboard</span>
                 </li>
-                <li :class="activeLink === 'dashboard' ? 'active' : ''" @click="activeLink = 'dashboard'">
-                    <span class="sidebar-icon icon-1"><i class='bx bxs-grid-alt'></i></span>
-                    <span class="sidebar-item">Dashboard</span>
-                </li>
-                <li :class="activeLink === 'calendar' ? 'active' : ''" @click="activeLink = 'calendar'">
+                <li :class="{active: activeLink === 'calendar'}" @click="activeLink = 'calendar'">
                     <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
-                    <span class="sidebar-item">Calendar</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
                 </li>
-                <li :class="activeLink === 'appointments' ? 'active' : ''" @click="activeLink = 'appointments'">
+                <li :class="{active: activeLink === 'appointments'}" @click="activeLink = 'appointments'">
                     <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
-                    <span class="sidebar-item">Appointments</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Appointments</span>
                 </li>
-                <li :class="activeLink === 'statistics' ? 'active' : ''" @click="activeLink = 'statistics'">
+                <li :class="{active: activeLink === 'statistics'}" @click="activeLink = 'statistics'">
                     <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
-                    <span class="sidebar-item">Statistics</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Statistics</span>
                 </li>
                 <li class="tools">
                     <span>Tools</span>
                 </li>
-                <li :class="activeLink === 'chat' ? 'active' : ''" @click="activeLink = 'chat'">
+                <li :class="{active: activeLink === 'chat'}" @click="activeLink = 'chat'">
                     <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
-                    <span class="sidebar-item">Chat</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
                 </li>
-                <li :class="activeLink === 'support' ? 'active' : ''" @click="activeLink = 'support'">
+                <li :class="{active: activeLink === 'support'}" @click="activeLink = 'support'">
                     <span class="sidebar-icon"><i class='bx bx-support'></i></span>
-                    <span class="sidebar-item">Support</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Support</span>
                 </li>
             </ul>
             <ul class="sidebar-bottom-items">
-                <li :class="activeLink === 'logout' ? 'active' : ''" @click="activeLink = 'logout'">
+                <li :class="{active: activeLink === 'logout'}" @click="handleSignOut">
                     <span class="sidebar-icon"><i class='bx bx-log-out'></i></span>
-                    <span class="sidebar-item" @click="handleSignOut">Log out</span>
+                    <span class="sidebar-item" v-show="!toggleSideBar">Log out</span>
                 </li>
             </ul>
         </div>
@@ -75,8 +71,11 @@ export default defineComponent({
     setup() {
         const store = useStore();
         // const router = useRouter();
+        const toggleSideBar = ref(false);
+        const activeLink = ref('dashboard');
 
         const handleSignOut = () => {
+            activeLink.value = 'logout';
             signOut(auth)
                 .then(() => {
                     console.log('User signed out');
@@ -87,15 +86,15 @@ export default defineComponent({
                 })
         }
 
-        const activeLink = ref('dashboard');
         const userProfilePicture = computed(() => store.state.currentUser.profilePicture);
         const userFirstNameInitial = computed(() => store.state.currentUser.firstNameInitial);
 
         return {
+            toggleSideBar,
             activeLink,
+            handleSignOut,
             userProfilePicture,
             userFirstNameInitial,
-            handleSignOut
         }
     }
 })
@@ -107,10 +106,15 @@ export default defineComponent({
     grid-template-areas: "header header header"
         "sidebar main main";
     grid-template-rows: 4rem 1fr;
-    grid-template-columns: 250px 0.5fr;
-    height: 100vh;
+    grid-template-columns: 250px 1fr;
     width: 100%;
+    height: 100vh;
     background-color: var(--whitish);
+    transition: all 0.2s ease;
+}
+
+#dashboard.toggle-sidebar {
+    grid-template-columns: 103px 1fr;
 }
 
 /* Header */
@@ -120,8 +124,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    /* width: 100%;
-    overflow: hidden; */
+    width: 100%;
 }
 
 .active {
@@ -130,11 +133,20 @@ export default defineComponent({
     background-color: var(--sm-text-color);
 }
 
+.active .bxs-grid-alt, .active .bxs-calendar, .active .bx-stats, .active .bxs-conversation, .active .bx-support, .active .bx-log-out {
+    color: gold;
+}
+
+.smaller-screen {
+    display: none;
+}
+
 /* Sidebar */
 #dashboard .sidebar {
     grid-area: sidebar;
     padding: 30px;
     border-right: 2px solid lightgray;
+    overflow: hidden;
 }
 
 .sidebar-bottom-items {
@@ -158,12 +170,10 @@ export default defineComponent({
     cursor: pointer;
 }
 
-.general,
 .tools,
 .sidebar-bottom-items li {
     font-size: var(--small-font-size);
 }
-
 
 .sidebar-icon {
     display: flex;
@@ -172,16 +182,12 @@ export default defineComponent({
     font-size: var(--h3-font-size);
 }
 
-.icon-1 {
-    color: gold;
-}
-
-
 .header-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 250px;
+    max-width: 250px;
+    width: 100%;
 }
 
 .bx-menu {
@@ -249,11 +255,10 @@ export default defineComponent({
 }
 
 .profile {
-    border: 1px solid var(--dark-blue);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .user-profile {
@@ -265,13 +270,48 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .user-profile img {
     max-width: 100%;
     height: auto;
-    border-radius: 50%;
 }
 
+@media screen and (max-width: 768px) {
+    #dashboard header {
+        padding: 0 20px;
+    }
 
+    #dashboard .sidebar {
+        padding: 20px;
+    }
+
+    #dashboard.toggle-sidebar {
+        grid-template-columns: 85px 1fr;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    #dashboard {
+        grid-template-columns: 0px 1fr;
+    }
+
+    #dashboard .sidebar {
+        transform: translateX(-100%);
+    }
+
+    #dashboard.toggle-sidebar {
+        grid-template-columns: 250px 1fr;
+        transform: translateX(0);
+    }
+
+    #dashboard.toggle-sidebar .sidebar {
+        transform: translateX(0);
+    }
+
+    #dashboard.toggle-sidebar .smaller-screen {
+        display: initial;
+    }
+}
 </style>

@@ -36,7 +36,7 @@ export default defineComponent({
     const showNavBar = ref(true);
 
     const onCheckRoute = () => {
-      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'MainDashboard') {
+      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard') {
         showNavBar.value = false;
       } else {
         showNavBar.value = true;
@@ -131,6 +131,7 @@ body {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   background-color: var(--main-bg-color);
+  width: 100%;
   height: 100%;
   font-size: var(--normal-font-size);
 }

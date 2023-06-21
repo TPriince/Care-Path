@@ -67,7 +67,6 @@ export default defineComponent({
         const activeLink = ref("home");
 
         const showMobileNav = ref(false);
-        // const showMobileNav = ref(true);
 
         onMounted(() => {
             const navBar = document.querySelector('.navbar') as HTMLElement;
@@ -270,6 +269,10 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.nav-btns .log-in__btn {
+    margin-bottom: 15px;
 }
 
 @keyframes mobile-links-slide-in {

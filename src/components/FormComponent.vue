@@ -13,9 +13,9 @@
             <p>Sign In with Google</p>
         </div>
         <div class="or-intersection" v-if="activeLink === 'sign-in'">
-            <hr />
+            <span></span>
             <p class="or">or</p>
-            <hr />
+            <span></span>
         </div>
         <div v-if="activeLink === 'sign-up'">
             <label for="first-name">First Name</label>
@@ -72,6 +72,8 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['isLoading']);
+
 const store = useStore();
 const router = useRouter();
 
@@ -117,6 +119,13 @@ const registerUser = async () => {
             setTimeout(() => {
                 state.errorMessage = "";
             }, 3000);
+        } else {
+            console.log(error.message);
+            state.errorMessage = "Something went wrong";
+            state.password = "";
+            setTimeout(() => {
+                state.errorMessage = "";
+            }, 3000);
         }
     }
 }
@@ -125,7 +134,6 @@ const logInUser = () => {
     signInWithEmailAndPassword(auth, state.email, state.password)
         .then(userCredential => {
             state.loading = false;
-            // Signed in 
             const user = userCredential.user;
             // console.log(user);
             router.push('/dashboard');
@@ -147,6 +155,10 @@ const logInUser = () => {
                 }, 3000);
             } else {
                 console.log(err.message);
+                state.errorMessage = "Something went wrong";
+                setTimeout(() => {
+                    state.errorMessage = "";
+                }, 3000);
             }
         })
 }
@@ -157,6 +169,7 @@ const googleSignIn = async () => {
     try {
         const user = await signInWithPopup(auth, provider)
         // console.log(user);
+        emit('isLoading', true);
         const userRef = doc(db, 'users', user.user.uid);
         const docSnap = await getDoc(userRef);
         if (!docSnap.exists() && user.user.displayName) {
@@ -167,13 +180,20 @@ const googleSignIn = async () => {
                 profilePicture: user.user.photoURL,
             })
             store.dispatch('getCurrentUser')
+            emit('isLoading', false);
             router.push('/dashboard');
         } else {
             console.log("User already exists");
+            emit('isLoading', false);
             router.push('/dashboard');
         }
     } catch(error) {
         console.log(error);
+        emit('isLoading', false);
+        state.errorMessage = "Something went wrong";
+        setTimeout(() => {
+            state.errorMessage = "";
+        }, 3000);
     }
 }
 
@@ -233,8 +253,10 @@ header {
     gap: 0.5rem;
 }
 
-.or-intersection hr {
+.or-intersection span {
     width: 100%;
+    background-color: #000000;
+    height: 1px;
 }
 
 .form__title {

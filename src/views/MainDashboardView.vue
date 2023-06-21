@@ -1,91 +1,91 @@
 <template>
     <main>
-            <div class="overview">
-                <div class="title">
-                    <h1 class="section__title">Overview</h1>
+        <div class="overview">
+            <div class="title">
+                <h1 class="section__title">Overview</h1>
+                <select name="date" id="date" class="dropdown">
+                    <option value="today">Today</option>
+                    <option value="lastweek">Last week</option>
+                    <option value="lastmonth">Last Month</option>
+                    <option value="lastyear">Last Year</option>
+                    <option value="alltime">All Time</option>
+                </select>
+            </div>
+            <div class="cards">
+                <div class="card card-1">
+                    <div class="card-data">
+                        <div class="card-content">
+                            <h5 class="card-title">Total Doctors</h5>
+                            <h1>28</h1>
+                        </div>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="card-stats">
+                        <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
+                        <span><i class='bx bx-caret-up'></i>10</span>
+                        <span><i class='bx bx-caret-down'></i>2</span>
+                    </div>
+                </div>
+                <div class="card card-2">
+                    <div class="card-data">
+                        <div class="card-content">
+                            <h5 class="card-title">Total Patients</h5>
+                            <h1>64</h1>
+                        </div>
+                        <i class='bx bx-user'></i>
+                    </div>
+                    <div class="card-stats">
+                        <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
+                        <span><i class='bx bx-caret-up'></i>10</span>
+                        <span><i class='bx bx-caret-down'></i>2</span>
+                    </div>
+                </div>
+                <div class="card card-3">
+                    <div class="card-data">
+                        <div class="card-content">
+                            <h5 class="card-title">Shedule</h5>
+                            <h1>101</h1>
+                        </div>
+                        <i class='bx bx-calendar'></i>
+                    </div>
+                    <div class="card-stats">
+                        <span><i class='bx bxs-bar-chart-alt-2'></i>27%</span>
+                        <span><i class='bx bx-caret-up'></i>31</span>
+                        <span><i class='bx bx-caret-down'></i>16</span>
+                    </div>
+                </div>
+                <div class="card card-4">
+                    <div class="card-data">
+                        <div class="card-content">
+                            <h5 class="card-title">Beds Available</h5>
+                            <h1>183</h1>
+                        </div>
+                        <i class='bx bxs-hotel'></i>
+                    </div>
+                    <div class="card-stats">
+                        <span><i class='bx bxs-bar-chart-alt-2'></i>9%</span>
+                        <span><i class='bx bx-caret-up'></i>10</span>
+                        <span><i class='bx bx-caret-down'></i>7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hospitals">
+            <div class="title">
+                <h1 class="section__title">Hospitals</h1>
+                <div class="add-hospital-section">
                     <select name="date" id="date" class="dropdown">
+                        <option value="">Filter</option>
                         <option value="today">Today</option>
                         <option value="lastweek">Last week</option>
                         <option value="lastmonth">Last Month</option>
                         <option value="lastyear">Last Year</option>
                         <option value="alltime">All Time</option>
                     </select>
-                </div>
-                <div class="cards">
-                    <div class="card card-1">
-                        <div class="card-data">
-                            <div class="card-content">
-                                <h5 class="card-title">Total Doctors</h5>
-                                <h1>28</h1>
-                            </div>
-                            <i class='bx bxs-user'></i>
-                        </div>
-                        <div class="card-stats">
-                            <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
-                            <span><i class='bx bx-caret-up'></i>10</span>
-                            <span><i class='bx bx-caret-down'></i>2</span>
-                        </div>
-                    </div>
-                    <div class="card card-2">
-                        <div class="card-data">
-                            <div class="card-content">
-                                <h5 class="card-title">Total Patients</h5>
-                                <h1>64</h1>
-                            </div>
-                            <i class='bx bx-user'></i>
-                        </div>
-                        <div class="card-stats">
-                            <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
-                            <span><i class='bx bx-caret-up'></i>10</span>
-                            <span><i class='bx bx-caret-down'></i>2</span>
-                        </div>
-                    </div>
-                    <div class="card card-3">
-                        <div class="card-data">
-                            <div class="card-content">
-                                <h5 class="card-title">Shedule</h5>
-                                <h1>101</h1>
-                            </div>
-                            <i class='bx bx-calendar'></i>
-                        </div>
-                        <div class="card-stats">
-                            <span><i class='bx bxs-bar-chart-alt-2'></i>27%</span>
-                            <span><i class='bx bx-caret-up'></i>31</span>
-                            <span><i class='bx bx-caret-down'></i>16</span>
-                        </div>
-                    </div>
-                    <div class="card card-4">
-                        <div class="card-data">
-                            <div class="card-content">
-                                <h5 class="card-title">Beds Available</h5>
-                                <h1>183</h1>
-                            </div>
-                            <i class='bx bxs-hotel'></i>
-                        </div>
-                        <div class="card-stats">
-                            <span><i class='bx bxs-bar-chart-alt-2'></i>9%</span>
-                            <span><i class='bx bx-caret-up'></i>10</span>
-                            <span><i class='bx bx-caret-down'></i>7</span>
-                        </div>
-                    </div>
+                    <button class="add-btn">Add Hospital</button>
                 </div>
             </div>
-            <div class="hospitals">
-                <div class="title">
-                    <h1 class="section__title">Hospitals</h1>
-                    <div class="add-hospital-section">
-                        <select name="date" id="date" class="dropdown">
-                            <option value="">Filter</option>
-                            <option value="today">Today</option>
-                            <option value="lastweek">Last week</option>
-                            <option value="lastmonth">Last Month</option>
-                            <option value="lastyear">Last Year</option>
-                            <option value="alltime">All Time</option>
-                        </select>
-                        <button class="add-btn">Add Hospital</button>
-                    </div>
-                </div>
-            </div>
+        </div>
     </main>
 </template>
 
@@ -93,8 +93,8 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    setup () {
-        
+    setup() {
+
 
         return {}
     }
@@ -106,7 +106,8 @@ export default defineComponent({
 #dashboard main {
     grid-area: main;
     padding: 0 40px;
-    overflow: scroll;
+    overflow-y: scroll;
+    transition: all 0.2s ease;
 }
 
 .title {
@@ -137,9 +138,6 @@ export default defineComponent({
 }
 
 .cards {
-    /* display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px; */
     display: flex;
     gap: 20px;
 }
@@ -165,7 +163,7 @@ export default defineComponent({
     margin-bottom: 5px;
 }
 
-.bxs-user,
+.card-data .bxs-user,
 .bx-user,
 .bx-calendar,
 .bxs-hotel {
@@ -270,4 +268,24 @@ export default defineComponent({
     background-color: var(--dark-blue-hover);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+@media screen and (max-width: 768px) {
+    #dashboard main {
+        padding: 0 20px;
+    }
+
+    .cards {
+        overflow-x: scroll;
+        }
+
+    /* .card {
+        margin-bottom: 20px;
+    }
+
+    .add-hospital-section {
+        flex-direction: column;
+        gap: 10px;
+    } */
+}
+    
 </style>

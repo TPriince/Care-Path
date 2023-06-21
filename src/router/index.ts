@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "main",
-        name: "MainDashboard",
+        name: "Main-Dashboard",
         component: MainDashboardView,
       }
     ]

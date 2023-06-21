@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="hero-img__container">
-                <img class="hero-img" src="../assets/images/hero-image2.png" alt="hero image" />
+                <img class="hero-img" src="../assets/images/hero-image2.png" alt="hero image" loading="lazy" />
             </div>
         </section>
         <slot></slot>
