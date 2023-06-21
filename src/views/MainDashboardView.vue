@@ -297,6 +297,11 @@ export default defineComponent({
     #dashboard main {
         padding: 0 1rem;
     }
+
+    .card {
+        min-width: 210px;
+        padding: 1.1rem;
+    }
 }
 
 @media screen and (max-width: 300px) {

@@ -193,6 +193,7 @@ export default defineComponent({
     left: 90%;
     width: 140px;
     opacity: 0;
+    font-weight: 400;
 }
 
 #dashboard.toggle-sidebar .sidebar {
@@ -200,6 +201,7 @@ export default defineComponent({
 }
 
 #dashboard.toggle-sidebar .sidebar li:hover .tooltip {
+    font-weight: var(--font-medium);
     opacity: 1;
 }
 
