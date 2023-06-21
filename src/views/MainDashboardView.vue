@@ -114,6 +114,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     margin-top: 30px;
     margin-bottom: 10px;
 }
@@ -278,14 +279,30 @@ export default defineComponent({
         overflow-x: scroll;
         }
 
-    /* .card {
+    .card {
         margin-bottom: 20px;
+    }
+
+    .section__title {
+        align-self: start;
     }
 
     .add-hospital-section {
         flex-direction: column;
         gap: 10px;
-    } */
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #dashboard main {
+        padding: 0 1rem;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .add-hospital-section {
+        align-items: flex-start;
+    }
 }
     
 </style>

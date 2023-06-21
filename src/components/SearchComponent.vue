@@ -1,5 +1,5 @@
 <template>
-    <section class="search-section container">
+    <section class="search-section">
         <div class="search-bars">
             <div class="search-bar__1">
                 <input type="text" placeholder="Search Doctors, Conditions, Procedures">

@@ -176,21 +176,37 @@ h6 {
   overflow-wrap: break-word;
 }
 
-.container {
-  max-width: 80%;
+.main {
+  max-width: 1024px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   margin-left: auto;
   margin-right: auto;
 }
 
+@media screen and (max-width: 1024px) {
+  .main {
+    max-width: 768px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main {
+    padding: 1.4rem;
+  }
+}
+
 @media screen and (max-width: 425px) {
-  .container {
-    max-width: 95%;
+  .main {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
   }
 }
 
 @media screen and (max-width: 300px) {
-  .container {
-    max-width: 100%;
+  .main {
+    padding-left: 0.5rem;
+    padding-right:0.5rem;
   }
 }
 

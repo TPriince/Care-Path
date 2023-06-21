@@ -1,6 +1,6 @@
 <template>
-    <main>
-        <section class="main-container container">
+    <main class="main">
+        <section class="main-container">
             <div class="hero-section__content">
                 <div class="hero-section__text">
                     <h1 class="section-title">Feel Better about<br /><span>Finding Healthcare</span></h1>
@@ -39,9 +39,6 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
     name: 'MainComponent',
-    // setup() {
-
-    // }
 })
 </script>
 
@@ -116,14 +113,13 @@ export default defineComponent({
     .section-title {
         position: absolute;
         top: 200px;
-        left: 60px;
         font-size: var(--h2-font-size);
     }
 
     .section-title span {
         position: absolute;
         top: 50px;
-        left: 200px;
+        left: 250px;
         width: 250px;
     }
 
@@ -138,12 +134,11 @@ export default defineComponent({
     .section-title {
         left: 70px;
     }
-
 }
 
 @media screen and (max-width: 650px) {
     .section-title span {
-        left: 150px;
+        left: 200px;
     }
 }
 

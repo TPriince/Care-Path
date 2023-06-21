@@ -20,37 +20,36 @@
         </header>
         <div class="sidebar">
             <ul class="sidebar-items">
-                <li :class="{active: activeLink === 'dashboard'}" @click="activeLink = 'dashboard'">
+                <li :class="{ active: activeLink === 'dashboard' }" @click="activeLink = 'dashboard'">
                     <span class="sidebar-icon"><i class='bx bxs-grid-alt'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Dashboard</span>
-                    <span class="sidebar-item smaller-screen">Dashboard</span>
                 </li>
-                <li :class="{active: activeLink === 'calendar'}" @click="activeLink = 'calendar'">
+                <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
                     <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
                 </li>
-                <li :class="{active: activeLink === 'appointments'}" @click="activeLink = 'appointments'">
+                <li :class="{ active: activeLink === 'appointments' }" @click="activeLink = 'appointments'">
                     <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Appointments</span>
                 </li>
-                <li :class="{active: activeLink === 'statistics'}" @click="activeLink = 'statistics'">
+                <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
                     <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Statistics</span>
                 </li>
                 <li class="tools">
                     <span>Tools</span>
                 </li>
-                <li :class="{active: activeLink === 'chat'}" @click="activeLink = 'chat'">
+                <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
                     <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
                 </li>
-                <li :class="{active: activeLink === 'support'}" @click="activeLink = 'support'">
+                <li :class="{ active: activeLink === 'support' }" @click="activeLink = 'support'">
                     <span class="sidebar-icon"><i class='bx bx-support'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Support</span>
                 </li>
             </ul>
             <ul class="sidebar-bottom-items">
-                <li :class="{active: activeLink === 'logout'}" @click="handleSignOut">
+                <li :class="{ active: activeLink === 'logout' }" @click="handleSignOut">
                     <span class="sidebar-icon"><i class='bx bx-log-out'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Log out</span>
                 </li>
@@ -123,6 +122,7 @@ export default defineComponent({
     padding: 0 40px;
     display: flex;
     align-items: center;
+    gap: 5px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     width: 100%;
 }
@@ -133,12 +133,13 @@ export default defineComponent({
     background-color: var(--sm-text-color);
 }
 
-.active .bxs-grid-alt, .active .bxs-calendar, .active .bx-stats, .active .bxs-conversation, .active .bx-support, .active .bx-log-out {
+.active .bxs-grid-alt,
+.active .bxs-calendar,
+.active .bx-stats,
+.active .bxs-conversation,
+.active .bx-support,
+.active .bx-log-out {
     color: gold;
-}
-
-.smaller-screen {
-    display: none;
 }
 
 /* Sidebar */
@@ -209,6 +210,7 @@ export default defineComponent({
 .search-and-profile {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     align-items: center;
     width: calc(100% - 250px);
 }
@@ -258,7 +260,6 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 5px;
 }
 
 .user-profile {
@@ -301,17 +302,43 @@ export default defineComponent({
         transform: translateX(-100%);
     }
 
-    #dashboard.toggle-sidebar {
-        grid-template-columns: 250px 1fr;
-        transform: translateX(0);
-    }
-
     #dashboard.toggle-sidebar .sidebar {
         transform: translateX(0);
     }
 
-    #dashboard.toggle-sidebar .smaller-screen {
-        display: initial;
+    .search-and-profile {
+        gap: 5px;
     }
+}
+
+@media screen and (max-width: 450px) {
+    #dashboard header {
+        padding: 0 1rem;
+    }
+
+    #dashboard .sidebar {
+        padding: 1rem;
+    }
+
+    #dashboard.toggle-sidebar {
+        grid-template-columns: 75px 1fr;
+    }
+
+    .header-logo {
+        width: initial;
+    }
+
+    .search-and-profile {
+        width: initial;
+        justify-content: flex-end;
+    }
+
+    .search {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
 }
 </style>

@@ -4,8 +4,8 @@ import SignUpView from "../views/SignUpView.vue";
 import SignInView from "../views/SignInView.vue";
 import DashboardView from "../views/DashboardView.vue";
 import ForgotPasswordView from "../views/ForgotPasswordView.vue";
-import ProfileView from "../views/ProfileView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
+// import ProfileView from "../views/ProfileView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: "main",
+        path: "",
         name: "Main-Dashboard",
         component: MainDashboardView,
       }

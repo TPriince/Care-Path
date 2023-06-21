@@ -97,13 +97,15 @@ export default defineComponent({
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    max-width: 1024px;
+    margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: calc(var(--navbar-height) + 1rem);
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     z-index: var(--z-fixed);
     background-color: var(--nav-bg-color);
 }
@@ -173,6 +175,8 @@ export default defineComponent({
 
 .nav-btns {
     display: flex;
+    justify-content: center;
+    align-items: center;
     column-gap: 1rem;
 }
 
@@ -235,7 +239,7 @@ export default defineComponent({
     width: 70%;
     padding: 20px;
     opacity: 1;
-    animation: mobile-links-slide 0.45s linear;
+    animation: mobile-links-slide 0.2s ease-in;
     height: 100vh;
 }
 
@@ -245,19 +249,19 @@ export default defineComponent({
 }
 
 .mobile-nav li:first-child {
-    animation: mobile-links-slide-in 0.3s linear;
+    animation: mobile-links-slide-in 0.3s ease-in;
 }
 
 .mobile-nav li:nth-child(2) {
-    animation: mobile-links-slide-in 0.5s linear;
+    animation: mobile-links-slide-in 0.5s ease-in;
 }
 
 .mobile-nav li:nth-child(3) {
-    animation: mobile-links-slide-in 0.7s linear;
+    animation: mobile-links-slide-in 0.7s ease-in;
 }
 
 .mobile-nav li:nth-child(4) {
-    animation: mobile-links-slide-in 0.9s linear;
+    animation: mobile-links-slide-in 0.9s ease-in;
 }
 
 .mobile-nav .nav-link::after {
@@ -271,16 +275,22 @@ export default defineComponent({
     align-items: center;
 }
 
-.nav-btns .log-in__btn {
+.mobile-nav .nav-btns .log-in__btn {
     margin-bottom: 15px;
 }
 
 @keyframes mobile-links-slide-in {
     0% {
+        opacity: 0;
         transform: translateX(-100%);
     }
 
+    50% {
+        opacicty: 0.5;
+    }
+
     100% {
+        opacity: 1;
         transform: translateX(0%);
     }
 }
@@ -302,8 +312,8 @@ export default defineComponent({
 
 @media screen and (max-width: 900px) {
     .navbar {
-        padding-left: 35px;
-        padding-right: 35px;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 }
 
@@ -313,8 +323,8 @@ export default defineComponent({
     }
 
     .navbar {
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 1.85rem;
+        padding-right: 1.85rem;
     }
 
     .nav-list {
@@ -328,8 +338,8 @@ export default defineComponent({
 
 @media screen and (max-width: 768px) {
     .navbar {
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 1.56rem;
+        padding-right: 1.56rem;
     }
 
     .bx-menu {
@@ -343,7 +353,7 @@ export default defineComponent({
 
 @media screen and (max-width: 425px) {
     .navbar {
-        padding-left: 16px;
+        padding-left: 1rem;
     }
 
     .bx-menu {
