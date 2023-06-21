@@ -58,11 +58,11 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-// import { useStore } from 'vuex';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { db, auth } from '../firebase/config';
-import { createUserWithEmailAndPassword, getRedirectResult, signInWithEmailAndPassword } from 'firebase/auth';
-import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 
 const props = defineProps({
@@ -72,9 +72,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['isLoading']);
-
-// const store = useStore();
+const store = useStore();
 const router = useRouter();
 
 const passwordType = ref('password');
@@ -119,13 +117,6 @@ const registerUser = async () => {
             setTimeout(() => {
                 state.errorMessage = "";
             }, 3000);
-        } else {
-            console.log(error.message);
-            state.errorMessage = "Something went wrong";
-            state.password = "";
-            setTimeout(() => {
-                state.errorMessage = "";
-            }, 3000);
         }
     }
 }
@@ -134,6 +125,7 @@ const logInUser = () => {
     signInWithEmailAndPassword(auth, state.email, state.password)
         .then(userCredential => {
             state.loading = false;
+            // Signed in 
             const user = userCredential.user;
             // console.log(user);
             router.push('/dashboard');
@@ -155,53 +147,35 @@ const logInUser = () => {
                 }, 3000);
             } else {
                 console.log(err.message);
-                state.errorMessage = "Something went wrong";
-                setTimeout(() => {
-                    state.errorMessage = "";
-                }, 3000);
             }
         })
 }
 
-// Log-in with Google
+// Log in with Google
 const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-        await signInWithRedirect(auth, provider)
+        const user = await signInWithPopup(auth, provider)
+        // console.log(user);
+        const userRef = doc(db, 'users', user.user.uid);
+        const docSnap = await getDoc(userRef);
+        if (!docSnap.exists() && user.user.displayName) {
+            await setDoc(userRef, {
+                email: user.user.email,
+                firstName: user.user.displayName.split(' ')[0],
+                lastName: user.user.displayName.split(' ')[1],
+                profilePicture: user.user.photoURL,
+            })
+            store.dispatch('getCurrentUser')
+            router.push('/dashboard');
+        } else {
+            console.log("User already exists");
+            router.push('/dashboard');
+        }
     } catch(error) {
         console.log(error);
     }
 }
-
-getRedirectResult(auth)
-    .then(result => {
-        console.log(result)
-        const user = result?.user
-        const handleUser = async () => {
-            if (user) {
-                emit('isLoading', true);
-                const userRef = doc(db, 'users', user.uid)
-                const docSnap = await getDoc(userRef)
-                if (!docSnap.exists() && user.displayName) {
-                    await setDoc(userRef, {
-                        email: user.email,
-                        firstName: user.displayName.split(' ')[0],
-                        lastName: user.displayName.split(' ')[1],
-                        profilePicture: user.photoURL,
-                    })
-                    emit('isLoading', false);
-                    router.push('/dashboard')
-                } else {
-                    console.log('User already exists')
-                    emit('isLoading', false);
-                    router.push('/dashboard')
-                }
-            } else {
-                console.log('No user')
-            }
-        }
-        handleUser()
-    })
 
 const handleSubmit = () => {
     if (props.activeLink === 'sign-up') {
@@ -247,6 +221,7 @@ header {
     background-color: #eeeaea;
 }
 
+
 .bxl-google {
     font-size: 1.5rem;
 }
@@ -260,7 +235,6 @@ header {
 
 .or-intersection hr {
     width: 100%;
-    background-color: #000000;
 }
 
 .form__title {
