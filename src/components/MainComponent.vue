@@ -4,7 +4,7 @@
             <div class="hero-section__content">
                 <div class="hero-section__text">
                     <h1 class="section-title">Feel Better about<br /><span>Finding Healthcare</span></h1>
-                    <p class="section-subtitle">CarePath provides you with an easy way to find Healthcare services</p>
+                    <p class="section-subtitle">Discover the Path to Exceptional Healthcare with <br /><span>Care-Path</span>: Your Trusted Companion on the Road to Wellness</p>
                 </div>
                 <div class="section-infos">
                     <div class="section-info">
@@ -59,8 +59,13 @@ export default defineComponent({
 
 .section-subtitle {
     color: var(--sm-text-color);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-normal);
     font-size: var(--small-font-size);
+}
+
+.section-subtitle span {
+    color: var(--dark-blue);
+    font-weight: var(--font-semi-bold);
 }
 
 .section-infos {

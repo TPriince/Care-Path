@@ -5,7 +5,7 @@ import SignInView from "../views/SignInView.vue";
 import DashboardView from "../views/DashboardView.vue";
 import ForgotPasswordView from "../views/ForgotPasswordView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
-// import ProfileView from "../views/ProfileView.vue";
+import ProfileView from "../views/ProfileView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "Main-Dashboard",
         component: MainDashboardView,
+      },
+      {
+        path: "profile",
+        name: "Profile",
+        component: ProfileView,
       }
     ]
     // beforeEnter: (to, from) => {

@@ -1,7 +1,7 @@
 <template>
     <div class="modal">
         <div class="modal-content">
-            <h3>{{ message }}</h3>
+            <h3 v-html="message"></h3>
             <button @click="closeModal">Close</button>
         </div>
     </div>
@@ -20,7 +20,6 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const closeModal = () => {
-            console.log(props.message)
             emit('close');
         }
 

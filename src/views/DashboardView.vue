@@ -10,21 +10,25 @@
                     <input type="text" placeholder="Search hospitals">
                     <button class="search-icon__btn"><i class='bx bx-search-alt'></i></button>
                 </div>
-                <div class="profile">
-                    <div class="user-profile">
-                        <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
-                        <span v-else>{{ userFirstNameInitial }}</span>
+                <RouterLink to="/dashboard/profile">
+                    <div class="profile">
+                        <div class="user-profile">
+                            <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
+                            <span v-else>{{ userFirstNameInitial }}</span>
+                        </div>
                     </div>
-                </div>
+                </RouterLink>
             </div>
         </header>
         <div class="sidebar">
             <ul class="sidebar-items">
-                <li :class="{ active: activeLink === 'dashboard' }" @click="activeLink = 'dashboard'">
-                    <span class="sidebar-icon"><i class='bx bxs-grid-alt'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Dashboard</span>
-                    <div class="tooltip">Dashboard</div>
-                </li>
+                <RouterLink to="/dashboard">
+                    <li :class="{ active: activeLink === 'dashboard' }" @click="activeLink = 'dashboard'">
+                        <span class="sidebar-icon"><i class='bx bxs-grid-alt'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Dashboard</span>
+                        <div class="tooltip">Dashboard</div>
+                    </li>
+                </RouterLink>
                 <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
                     <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
@@ -60,6 +64,8 @@
             </ul>
         </div>
         <RouterView />
+        <LoaderComponent v-show="showLoader" />
+        <ModalComponent v-show="!!updateUserMessage" @closeModal="closeModalPopUp" :message="updateUserMessage" />
     </section>
 </template>
 
@@ -69,8 +75,15 @@ import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useStore } from 'vuex';
 // import { useRouter } from 'vue-router';
+import LoaderComponent from '@/components/LoaderComponent.vue';
+import ModalComponent from '@/components/ModalComponent.vue';
 
 export default defineComponent({
+    name: 'DashboardView',
+    components: {
+        LoaderComponent,
+        ModalComponent,
+    },
     setup() {
         const store = useStore();
         // const router = useRouter();
@@ -92,12 +105,21 @@ export default defineComponent({
         const userProfilePicture = computed(() => store.state.currentUser.profilePicture);
         const userFirstNameInitial = computed(() => store.state.currentUser.firstNameInitial);
 
+        const showLoader = computed(() => store.state.updatingUserStatus);
+        const updateUserMessage = computed(() => store.state.updatingUserMessage);
+        const closeModalPopUp = () => {
+            store.commit('setUpdatingUserMessage', '');
+        }
+
         return {
             toggleSideBar,
             activeLink,
             handleSignOut,
             userProfilePicture,
             userFirstNameInitial,
+            showLoader,
+            updateUserMessage,
+            closeModalPopUp,
         }
     }
 })

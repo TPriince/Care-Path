@@ -61,16 +61,14 @@ export default defineComponent({
             try {
                 await sendPasswordResetEmail(auth, state.email)
                 state.loading = false;
-                state.successMsg = 'Password reset email sent! ✔'
+                state.successMsg = 'Password reset email sent! <span style="color: green;">✔<span>'
                 state.show = true
-                console.log('Password reset email sent successfully!')
             } catch (err: any) {
                 state.loading = false;
                 state.errorMsg = err.message;
                 setTimeout(() => {
                     state.errorMsg = '';
                 }, 3000);
-                console.log(err.message)
             }
         }
 

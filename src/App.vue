@@ -36,7 +36,7 @@ export default defineComponent({
     const showNavBar = ref(true);
 
     const onCheckRoute = () => {
-      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard') {
+      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard' || route.name === 'Profile') {
         showNavBar.value = false;
       } else {
         showNavBar.value = true;
