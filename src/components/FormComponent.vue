@@ -201,7 +201,7 @@ const googleSignIn = async () => {
         state.errorMessage = "Something went wrong";
         setTimeout(() => {
             state.errorMessage = "";
-        }, 3000);
+        }, 6000);
     }
 }
 

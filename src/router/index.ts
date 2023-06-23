@@ -6,6 +6,7 @@ import DashboardView from "../views/DashboardView.vue";
 import ForgotPasswordView from "../views/ForgotPasswordView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
 import ProfileView from "../views/ProfileView.vue";
+import ErrorPageView from "../views/ErrorPageView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -45,8 +46,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "profile",
         name: "Profile",
         component: ProfileView,
-      }
-    ]
+      },
+    ],
     // beforeEnter: (to, from) => {
     //     if (!isAuthenticated()) {
     //         return {
@@ -54,6 +55,11 @@ const routes: Array<RouteRecordRaw> = [
     //         }
     //     }
     // }
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "Error-page",
+    component: ErrorPageView,
   },
   // {
   //   path: "/about",

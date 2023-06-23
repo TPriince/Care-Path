@@ -6,7 +6,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, provide } from 'vue';
 import { useRoute } from 'vue-router';
-import {onAuthStateChanged} from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/config';
 import { useStore } from 'vuex';
 import NavBar from './components/NavBar.vue'
@@ -43,7 +43,7 @@ export default defineComponent({
     provide('toggleMobileNav', toggleMobileNav);
 
     const onCheckRoute = () => {
-      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard' || route.name === 'Profile') {
+      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard' || route.name === 'Profile' || route.name === 'Error-page') {
         showNavBar.value = false;
         showMobileNav.value = false;
       } else {
@@ -117,7 +117,6 @@ export default defineComponent({
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* border: 1px solid black; */
 }
 
 html {
@@ -214,7 +213,7 @@ h6 {
 @media screen and (max-width: 300px) {
   .main {
     padding-left: 0.5rem;
-    padding-right:0.5rem;
+    padding-right: 0.5rem;
   }
 }
 
@@ -312,4 +311,5 @@ h6 {
     button {
       background-color: #f9f9f9;
     }
-  } */</style>
+  } */
+</style>
