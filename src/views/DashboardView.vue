@@ -65,7 +65,7 @@
         </div>
         <RouterView />
         <LoaderComponent v-show="showLoader" />
-        <ModalComponent v-show="!!updateUserMessage" @closeModal="closeModalPopUp" :message="updateUserMessage" />
+        <ModalComponent v-show="!!updateUserMessage" @close="closeModal" :message="updateUserMessage" />
     </section>
 </template>
 
@@ -74,7 +74,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useStore } from 'vuex';
-// import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import LoaderComponent from '@/components/LoaderComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 
@@ -86,7 +86,7 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        // const router = useRouter();
+        const router = useRouter();
         const toggleSideBar = ref(false);
         const activeLink = ref('dashboard');
 
@@ -94,8 +94,9 @@ export default defineComponent({
             activeLink.value = 'logout';
             signOut(auth)
                 .then(() => {
-                    console.log('User signed out');
+                    // console.log('User signed out');
                     // window.location.reload();
+                    router.push({ name: 'Home' });
                 })
                 .catch(err => {
                     console.log(err.message);
@@ -107,8 +108,9 @@ export default defineComponent({
 
         const showLoader = computed(() => store.state.updatingUserStatus);
         const updateUserMessage = computed(() => store.state.updatingUserMessage);
-        const closeModalPopUp = () => {
+        const closeModal = () => {
             store.commit('setUpdatingUserMessage', '');
+            console.log(store.state.updatingUserMessage);
         }
 
         return {
@@ -119,7 +121,7 @@ export default defineComponent({
             userFirstNameInitial,
             showLoader,
             updateUserMessage,
-            closeModalPopUp,
+            closeModal,
         }
     }
 })
@@ -165,7 +167,8 @@ export default defineComponent({
 .active .bx-stats,
 .active .bxs-conversation,
 .active .bx-support,
-.active .bx-log-out {
+.active .bx-log-out,
+.active .sidebar-item {
     color: gold;
 }
 

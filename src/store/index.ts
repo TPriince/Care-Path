@@ -51,11 +51,7 @@ export default createStore({
         const userSnap = await getDoc(userRef);
         // console.log(userSnap)
         // console.log(userSnap.data())
-        if (userSnap) {
-          commit("setCurrentUser", userSnap);
-        }
-      } else {
-        console.log("No user is signed in.");
+        commit("setCurrentUser", userSnap);
       }
     },
     async updateUserDetails({ commit, state }, payload) {
@@ -63,13 +59,15 @@ export default createStore({
       const userRef = doc(db, "users", state.currentUser.profileId);
         updateDoc(userRef, payload)
           .then(() => {
-            console.log("Document successfully updated!");
+            // console.log("Profile successfully updated!");
             commit("updateUserInfo", payload);
             commit("setUpdatingUserStatus", false);
             commit("setUpdatingUserMessage", 'Changes saved! <span style="color: green;">✔</span>');
           }
           ).catch((error) => {
             console.error("Error updating profile: ", error);
+            commit("setUpdatingUserStatus", false);
+            commit("setUpdatingUserMessage", 'Error updating profile <span style="color: red;">✘</span>');
           }
           );
     }

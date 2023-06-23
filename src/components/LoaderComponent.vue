@@ -8,11 +8,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    name: 'LoadeComponent',
-    setup() {
-
-        return {}
-    }
+    name: 'LoaderComponent',
 })
 </script>
 

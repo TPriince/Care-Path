@@ -45,12 +45,16 @@ export default defineComponent({
     });
 
     const saveChanges = () => {
-      store.dispatch('updateUserDetails', {
-        firstName: state.firstName,
-        lastName: state.lastName,
-      });
-      store.commit('setUpdatingUserStatus', true);
-    };
+      if (state.firstName && state.lastName) {
+        store.dispatch('updateUserDetails', {
+          firstName: state.firstName,
+          lastName: state.lastName,
+        });
+        store.commit('setUpdatingUserStatus', true);
+      } else {
+        store.commit('setUpdatingUserMessage', 'Please fill in all fields');
+      }
+    }
 
     return {
       userProfilePicture,

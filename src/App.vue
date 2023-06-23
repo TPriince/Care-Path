@@ -17,15 +17,14 @@ export default defineComponent({
     NavBar
   },
   setup() {
-
     const route = useRoute();
     const store = useStore();
 
     onAuthStateChanged(auth, (user) => {
       store.commit('updateUser', user)
-      console.log(user)
+      // console.log(user)
       if (user) {
-        console.log(user.uid)
+        // console.log(user.uid)
         store.dispatch('getCurrentUser')
       } else {
         console.log('User is signed out');

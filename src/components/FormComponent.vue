@@ -216,7 +216,6 @@ const handleSubmit = () => {
         logInUser();
     }
 }
-
 </script>
 
 <style scoped>

@@ -65,7 +65,6 @@ export default defineComponent({
     name: 'NavBar',
     setup() {
         const activeLink = ref("home");
-
         const showMobileNav = ref(false);
 
         onMounted(() => {
