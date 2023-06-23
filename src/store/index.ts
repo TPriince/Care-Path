@@ -56,7 +56,8 @@ export default createStore({
     },
     async updateUserDetails({ commit, state }, payload) {
       // console.log(payload)
-      const userRef = doc(db, "users", state.currentUser.profileId);
+      try {
+        const userRef = doc(db, "users", state.currentUser.profileId);
         updateDoc(userRef, payload)
           .then(() => {
             // console.log("Profile successfully updated!");
@@ -70,6 +71,11 @@ export default createStore({
             commit("setUpdatingUserMessage", 'Error updating profile <span style="color: red;">✘</span>');
           }
           );
+      } catch (error) {
+        commit("setUpdatingUserStatus", false);
+        commit("setUpdatingUserMessage", 'Error updating profile <span style="color: red;">✘</span>');
+        console.log(error);
+      }
     }
   },
   modules: {},

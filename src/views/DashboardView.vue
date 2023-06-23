@@ -95,11 +95,12 @@ export default defineComponent({
             signOut(auth)
                 .then(() => {
                     // console.log('User signed out');
-                    // window.location.reload();
+                    window.location.replace('/');
                     router.push({ name: 'Home' });
                 })
                 .catch(err => {
                     console.log(err.message);
+                    window.location.replace('/');
                 })
         }
 
@@ -110,7 +111,6 @@ export default defineComponent({
         const updateUserMessage = computed(() => store.state.updatingUserMessage);
         const closeModal = () => {
             store.commit('setUpdatingUserMessage', '');
-            console.log(store.state.updatingUserMessage);
         }
 
         return {

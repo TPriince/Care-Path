@@ -46,11 +46,11 @@ export default defineComponent({
 
     const saveChanges = () => {
       if (state.firstName && state.lastName) {
+        store.commit('setUpdatingUserStatus', true);
         store.dispatch('updateUserDetails', {
           firstName: state.firstName,
           lastName: state.lastName,
         });
-        store.commit('setUpdatingUserStatus', true);
       } else {
         store.commit('setUpdatingUserMessage', 'Please fill in all fields');
       }

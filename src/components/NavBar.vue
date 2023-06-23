@@ -25,7 +25,7 @@
                 </button>
             </div>
         </div>
-        <i class='bx bx-menu' @click="showMobileNav = !showMobileNav" v-show="!showMobileNav"></i>
+        <i class='bx bx-menu' @click="toggleMobileNav" v-show="!showMobileNav"></i>
         <div class="mobile-nav-container" v-show="showMobileNav">
             <div class="mobile-nav">
                 <ul>
@@ -59,13 +59,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted, inject } from 'vue'
 
 export default defineComponent({
     name: 'NavBar',
     setup() {
         const activeLink = ref("home");
-        const showMobileNav = ref(false);
+        const showMobileNav = inject('showMobileNav', ref(false));
+        const toggleMobileNav = inject('toggleMobileNav') as () => void;
 
         onMounted(() => {
             const navBar = document.querySelector('.navbar') as HTMLElement;
@@ -85,6 +86,7 @@ export default defineComponent({
         return {
             activeLink,
             showMobileNav,
+            toggleMobileNav
         }
     }
 })
@@ -97,14 +99,15 @@ export default defineComponent({
     top: 0;
     left: 0;
     right: 0;
-    max-width: 1200px;
+    /* max-width: 1200px; */
+    width: 100%;
     margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: calc(var(--navbar-height) + 1rem);
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 18rem;
+    padding-right: 18rem;
     z-index: var(--z-fixed);
     background-color: var(--nav-bg-color);
 }
@@ -291,6 +294,34 @@ export default defineComponent({
     100% {
         opacity: 1;
         transform: translateX(0%);
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .navbar {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .navbar {
+        padding-left: 8rem;
+        padding-right: 8rem;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .navbar {
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .navbar {
+        padding-left: 4rem;
+        padding-right: 4rem;
     }
 }
 

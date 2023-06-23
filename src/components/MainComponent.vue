@@ -102,7 +102,7 @@ export default defineComponent({
 @media screen and (max-width: 768px) {
     .main-container {
         flex-direction: column;
-        margin-bottom: 15px;
+        margin-bottom: 2rem;
         position: relative;
         text-align: center;
     }
@@ -137,13 +137,21 @@ export default defineComponent({
 
 @media screen and (max-width: 700px) {
     .section-title {
-        left: 70px;
+        left: 100px;
+    }
+
+    .section-title span {
+        left: 230px;
     }
 }
 
 @media screen and (max-width: 650px) {
+    .section-title {
+        left: 95px;
+    }
+
     .section-title span {
-        left: 200px;
+        left: 160px;
     }
 }
 
@@ -163,4 +171,5 @@ export default defineComponent({
     .section-infos {
         gap: 0.5rem;
     }
-}</style>
+}
+</style>

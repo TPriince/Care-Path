@@ -4,7 +4,7 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch, provide } from 'vue';
 import { useRoute } from 'vue-router';
 import {onAuthStateChanged} from 'firebase/auth';
 import { auth } from './firebase/config';
@@ -33,10 +33,19 @@ export default defineComponent({
     );
 
     const showNavBar = ref(true);
+    const showMobileNav = ref(false);
+
+    const toggleMobileNav = () => {
+      showMobileNav.value = !showMobileNav.value;
+    }
+
+    provide('showMobileNav', showMobileNav);
+    provide('toggleMobileNav', toggleMobileNav);
 
     const onCheckRoute = () => {
       if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard' || route.name === 'Profile') {
         showNavBar.value = false;
+        showMobileNav.value = false;
       } else {
         showNavBar.value = true;
       }
