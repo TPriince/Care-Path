@@ -3,7 +3,7 @@
         <span class="err">4</span>
         <i class="far fa-question-circle fa-spin"></i>
         <span class="err2">4</span>
-        <div class="msg">Maybe this page moved? Got deleted? Is hiding out in quarantine? Never existed in the first place?
+        <div class="msg">Sorry, but we're having a hard time finding what you're searching for. Maybe try a different path?
             <p>Let's go <RouterLink to="/">home</RouterLink> and try from there.</p>
         </div>
     </div>
