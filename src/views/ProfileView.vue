@@ -20,9 +20,9 @@
           <label>Email Name</label>
           <input type="email" v-model="email" disabled />
         </div>
-      </div>
-      <div class="save-btn-wrapper">
-        <button class="save-btn">SAVE CHANGES</button>
+        <div class="save-btn-wrapper">
+          <button class="save-btn">SAVE CHANGES</button>
+        </div>
       </div>
     </form>
   </main>
@@ -99,43 +99,47 @@ export default defineComponent({
 }
 
 .profile-image-or-firstname-initial {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: var(--dark-blue);
-    color: var(--whitish);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    font-size: var(--h2-font-size);
-    margin: auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--dark-blue);
+  color: var(--whitish);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-size: var(--h2-font-size);
+  margin: auto;
 }
 
 .profile-image-or-firstname-initial img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .profile-details-container div {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-details-container div:last-child {
+  margin-bottom: 0;
 }
 
 label {
-    display: block;
-    font-size: var(--normal-font-size);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+  display: block;
+  font-size: var(--normal-font-size);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
 input {
-    background: #dfdfe0;
-    border: 0;
-    border-radius: 8px;
-    width: 100%;
-    font-size: 0.9rem;
-    text-indent: 10px;
-    padding: 8px 10px;
+  background: #dfdfe0;
+  border: 0;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 0.9rem;
+  text-indent: 10px;
+  padding: 8px 10px;
 }
 
 input::placeholder {
@@ -148,7 +152,7 @@ input:focus {
 
 .save-btn-wrapper {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .save-btn {
@@ -162,7 +166,7 @@ input:focus {
 }
 
 .save-btn:hover {
-    background-color: var(--dark-blue-hover);
-    font-weight: var(--font-medium);
+  background-color: var(--dark-blue-hover);
+  font-weight: var(--font-medium);
 }
 </style>

@@ -25,7 +25,7 @@ export default defineComponent({
       // console.log(user)
       if (user) {
         // console.log(user.uid)
-        store.dispatch('getCurrentUser')
+        store.dispatch('getCurrentUser');
       } else {
         console.log('User is signed out');
       }

@@ -7,6 +7,22 @@ import ForgotPasswordView from "../views/ForgotPasswordView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import ErrorPageView from "../views/ErrorPageView.vue";
+// import store from "@/store";
+import { auth } from "@/firebase/config";
+
+const isUserAuthenticated = () => {
+  console.log(auth.currentUser);
+  return !!auth.currentUser;
+};
+console.log(isUserAuthenticated());
+
+// const authGuard = (to, from, next) => {
+//   if (to.meta.authIsRequired && !isUserAuthenticated()) {
+//     next({ name: "Home" });
+//   } else {
+//     next();
+//   }
+// };
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +39,13 @@ const routes: Array<RouteRecordRaw> = [
     path: "/sign-in",
     name: "Sign-In",
     component: SignInView,
+    beforeEnter: (to, from) => {
+      if (isUserAuthenticated()) {
+        return {
+          name: "Main-Dashboard",
+        };
+      }
+    },
   },
   {
     path: "/forgot-password",
@@ -36,40 +59,45 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       authIsRequired: true,
     },
+    beforeEnter: (to, from) => {
+      if (!isUserAuthenticated()) {
+        return {
+          name: "Home",
+        };
+      }
+    },
     children: [
       {
         path: "",
         name: "Main-Dashboard",
         component: MainDashboardView,
+        beforeEnter: (to, from) => {
+          if (!isUserAuthenticated()) {
+            return {
+              name: "Home",
+            };
+          }
+        },
       },
       {
         path: "profile",
         name: "Profile",
         component: ProfileView,
+        beforeEnter: (to, from) => {
+          if (!isUserAuthenticated()) {
+            return {
+              name: "Home",
+            };
+          }
+        },
       },
     ],
-    // beforeEnter: (to, from) => {
-    //     if (!isAuthenticated()) {
-    //         return {
-    //             name: "Home"
-    //         }
-    //     }
-    // }
   },
   {
     path: "/:catchAll(.*)",
     name: "Error-page",
     component: ErrorPageView,
   },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
 ];
 
 const router = createRouter({
