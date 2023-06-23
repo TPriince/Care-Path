@@ -7,11 +7,12 @@ import ForgotPasswordView from "../views/ForgotPasswordView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import ErrorPageView from "../views/ErrorPageView.vue";
-// import store from "@/store";
+import store from "@/store";
 import { auth } from "@/firebase/config";
 
 const isUserAuthenticated = () => {
-  console.log(auth.currentUser);
+  console.log(!!auth.currentUser);
+  console.log(!!store.state.user);
   return !!auth.currentUser;
 };
 console.log(isUserAuthenticated());
@@ -40,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Sign-In",
     component: SignInView,
     beforeEnter: (to, from) => {
-      if (isUserAuthenticated()) {
+      if (isUserAuthenticated() && from.name !== "Sign-Up") {
         return {
           name: "Main-Dashboard",
         };

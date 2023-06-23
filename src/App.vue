@@ -21,6 +21,7 @@ export default defineComponent({
     const store = useStore();
 
     onAuthStateChanged(auth, (user) => {
+      console.log(user)
       store.commit('updateUser', user)
       // console.log(user)
       if (user) {
