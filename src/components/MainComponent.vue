@@ -4,7 +4,9 @@
             <div class="hero-section__content">
                 <div class="hero-section__text">
                     <h1 class="section-title">Feel Better about<br /><span>Finding Healthcare</span></h1>
-                    <p class="section-subtitle">Discover the Path to Exceptional Healthcare with <br /><span>Care-Path</span>: Your Trusted Companion on the Road to Wellness</p>
+                    <p class="section-subtitle">Discover the Path to Exceptional Healthcare with
+                        <br /><span>Care-Path</span>: Your Trusted Companion on the Road to Wellness
+                    </p>
                 </div>
                 <div class="section-infos">
                     <div class="section-info">
@@ -28,7 +30,7 @@
                 </div>
             </div>
             <div class="hero-img__container">
-                <img class="hero-img" src="../assets/images/hero-image2.png" alt="hero image" loading="lazy" />
+                <!-- <img class="hero-img" src="../assets/images/hero-image2.png" alt="hero image" loading="lazy" /> -->
             </div>
         </section>
         <slot></slot>
@@ -48,7 +50,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 5rem;
+    column-gap: 4rem;
 }
 
 .section-title {
@@ -87,15 +89,21 @@ export default defineComponent({
     gap: 0.5rem;
 }
 
-.hero-img {
-    max-width: 300px;
-    height: auto;
+.hero-img__container {
+    background-image: url('../assets/images/hero-image2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 450px;
 }
 
-@media screen and (max-width: 850px) {
-    .main-container {
-        padding-top: var(--navbar-height);
-        column-gap: 0;
+@media screen and (max-width: 1024px) {
+    .hero-img__container {
+        height: 420px;
     }
 }
 
@@ -117,7 +125,7 @@ export default defineComponent({
 
     .section-title {
         position: absolute;
-        top: 200px;
+        top: 230px;
         font-size: var(--h2-font-size);
     }
 
@@ -161,7 +169,7 @@ export default defineComponent({
     }
 
     .section-title {
-        top: 220px;
+        top: 250px;
         left: 0;
         right: 0;
     }
@@ -170,6 +178,11 @@ export default defineComponent({
 @media screen and (max-width: 325px) {
     .section-infos {
         gap: 0.5rem;
+    }
+
+    .hero-img__container {
+        width: 250px;
+        height: 400px;
     }
 }
 </style>
