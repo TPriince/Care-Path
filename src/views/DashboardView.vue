@@ -39,11 +39,13 @@
                     <span class="sidebar-item" v-show="!toggleSideBar">Appointments</span>
                     <div class="tooltip">Appointments</div>
                 </li>
-                <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
-                    <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Statistics</span>
-                    <div class="tooltip">Statistics</div>
-                </li>
+                <RouterLink to="/dashboard/create-hospital">
+                    <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
+                        <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Create Hospital</span>
+                        <div class="tooltip">Statistics</div>
+                    </li>
+                </RouterLink>
                 <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
                     <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
                     <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
@@ -63,7 +65,9 @@
                 </li>
             </ul>
         </div>
-        <RouterView />
+        <main>
+            <RouterView />
+        </main>
         <LoaderComponent v-show="showLoader" />
         <ModalComponent v-show="!!updateUserMessage" @close="closeModal" :message="updateUserMessage" />
     </section>
@@ -165,6 +169,14 @@ export default defineComponent({
     gap: 5px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     width: 100%;
+}
+
+/* Main content */
+#dashboard main {
+    grid-area: main;
+    padding: 0 40px;
+    overflow-y: scroll;
+    transition: all 0.2s ease;
 }
 
 .active {
@@ -345,6 +357,8 @@ export default defineComponent({
     height: auto;
 }
 
+
+
 @media screen and (max-width: 768px) {
     #dashboard header {
         padding: 0 20px;
@@ -352,6 +366,10 @@ export default defineComponent({
 
     #dashboard .sidebar {
         padding: 20px;
+    }
+
+    #dashboard main {
+        padding: 0 20px;
     }
 
     #dashboard.toggle-sidebar {
@@ -388,6 +406,10 @@ export default defineComponent({
 
     #dashboard .sidebar {
         padding: 1rem;
+    }
+
+    #dashboard main {
+        padding: 0 1rem;
     }
 
     #dashboard.toggle-sidebar {

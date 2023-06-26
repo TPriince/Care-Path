@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <div>
         <div class="overview">
             <div class="title">
                 <h1 class="section__title">Overview</h1>
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </template>
 
 <script lang="ts">
@@ -101,15 +101,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
-/* Main content */
-#dashboard main {
-    grid-area: main;
-    padding: 0 40px;
-    overflow-y: scroll;
-    transition: all 0.2s ease;
-}
-
+<style scoped>
 .title {
     display: flex;
     justify-content: space-between;
@@ -271,13 +263,9 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 768px) {
-    #dashboard main {
-        padding: 0 20px;
-    }
-
     .cards {
         overflow-x: scroll;
-        }
+    }
 
     .card {
         margin-bottom: 20px;
@@ -294,10 +282,6 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 450px) {
-    #dashboard main {
-        padding: 0 1rem;
-    }
-
     .card {
         min-width: 210px;
         padding: 1.1rem;

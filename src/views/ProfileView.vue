@@ -1,31 +1,29 @@
 <template>
-  <main>
-    <form class="profile-settings__section" @submit.prevent="saveChanges">
-      <h1>Profile Settings</h1>
-      <div class="profile-details-container">
-        <div class="profile-image-or-firstname-initial">
-          <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
-          <span v-else>{{ userFirstNameInitial }}</span>
-        </div>
-        <p><span>Admin</span></p>
-        <div>
-          <label>First Name</label>
-          <input type="text" v-model="firstName" />
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input type="text" v-model="lastName" />
-        </div>
-        <div>
-          <label>Email Name</label>
-          <input type="email" v-model="email" disabled />
-        </div>
-        <div class="save-btn-wrapper">
-          <button class="save-btn">SAVE CHANGES</button>
-        </div>
+  <form class="profile-settings__section" @submit.prevent="saveChanges">
+    <h1>Profile Settings</h1>
+    <div class="profile-details-container">
+      <div class="profile-image-or-firstname-initial">
+        <img :src="userProfilePicture" alt="User profile picture" v-if="userProfilePicture" />
+        <span v-else>{{ userFirstNameInitial }}</span>
       </div>
-    </form>
-  </main>
+      <p><span>Admin</span></p>
+      <div>
+        <label>First Name</label>
+        <input type="text" v-model="firstName" />
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input type="text" v-model="lastName" />
+      </div>
+      <div>
+        <label>Email Name</label>
+        <input type="email" v-model="email" disabled />
+      </div>
+      <div class="save-btn-wrapper">
+        <button class="save-btn">SAVE CHANGES</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">

@@ -43,8 +43,10 @@ export default defineComponent({
     provide('showMobileNav', showMobileNav);
     provide('toggleMobileNav', toggleMobileNav);
 
+    const routeNames = ["Sign-Up", "Sign-In", "Forgot-Password", "Dashboard", "Main-Dashboard", "Profile", "Create-Hospital", "Error-page"];
+
     const onCheckRoute = () => {
-      if (route.name == 'Sign-Up' || route.name == 'Sign-In' || route.name === 'Forgot-Password' || route.name == 'Dashboard' || route.name === 'Main-Dashboard' || route.name === 'Profile' || route.name === 'Error-page') {
+      if (routeNames.includes(route.name as string)) {
         showNavBar.value = false;
         showMobileNav.value = false;
       } else {
