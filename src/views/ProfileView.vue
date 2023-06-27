@@ -9,15 +9,15 @@
       <p><span>Admin</span></p>
       <div>
         <label>First Name</label>
-        <input type="text" v-model="firstName" />
+        <input type="text" v-model="computedFirstName" />
       </div>
       <div>
         <label>Last Name</label>
-        <input type="text" v-model="lastName" />
+        <input type="text" v-model="computedLastName" />
       </div>
       <div>
         <label>Email Name</label>
-        <input type="email" v-model="email" disabled />
+        <input type="email" v-model="computedEmail" disabled />
       </div>
       <div class="save-btn-wrapper">
         <button class="save-btn">SAVE CHANGES</button>
@@ -27,27 +27,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, toRefs } from 'vue';
-import store from '@/store';
+import { defineComponent, computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'ProfileView',
   setup() {
+    const store = useStore();
     const userProfilePicture = computed(() => store.state.currentUser.profilePicture);
     const userFirstNameInitial = computed(() => store.state.currentUser.firstNameInitial);
 
-    const state = reactive({
-      firstName: store.state.currentUser.firstName,
-      lastName: store.state.currentUser.lastName,
-      email: store.state.currentUser.email,
+    const firstName = ref(store.state.currentUser.firstName);
+    const lastName = ref(store.state.currentUser.lastName);
+    const email = ref(store.state.currentUser.email);
+
+    const computedFirstName = computed({
+      get: () => store.state.currentUser.firstName,
+      set: (newValue) => firstName.value = newValue,
+    });
+    const computedLastName = computed({
+      get: () => store.state.currentUser.lastName,
+      set: (newvalue) => lastName.value = newvalue,
+    });
+    const computedEmail = computed({
+      get: () => store.state.currentUser.email,
+      set: (newValue) => email.value = newValue,
     });
 
     const saveChanges = () => {
-      if (state.firstName && state.lastName) {
+      if (firstName.value && lastName.value) {
         store.commit('setUpdatingUserStatus', true);
         store.dispatch('updateUserDetails', {
-          firstName: state.firstName,
-          lastName: state.lastName,
+          firstName: firstName.value,
+          lastName: lastName.value,
         });
       } else {
         store.commit('setUpdatingUserMessage', 'Please fill in all fields');
@@ -57,7 +69,9 @@ export default defineComponent({
     return {
       userProfilePicture,
       userFirstNameInitial,
-      ...toRefs(state),
+      computedFirstName,
+      computedLastName,
+      computedEmail,
       saveChanges,
     }
   }

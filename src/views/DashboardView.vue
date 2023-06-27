@@ -111,12 +111,11 @@ export default defineComponent({
             signOut(auth)
                 .then(() => {
                     // console.log('User signed out');
-                    window.location.replace('/');
-                    router.push({ name: 'Home' });
+                    router.replace("/")
                 })
                 .catch(err => {
                     console.log(err.message);
-                    window.location.replace('/');
+                    router.replace('/');
                 })
         }
 

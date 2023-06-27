@@ -8,23 +8,21 @@ import MainDashboardView from "../views/MainDashboardView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import CreateHospitalView from "../views/CreateHospitalView.vue";
 import ErrorPageView from "../views/ErrorPageView.vue";
-import store from "@/store";
 import { auth } from "@/firebase/config";
+import { onAuthStateChanged } from "firebase/auth";
 
-const isUserAuthenticated = () => {
-  console.log(!!auth.currentUser);
-  console.log(!!store.state.user);
-  return !!auth.currentUser;
-};
-console.log(isUserAuthenticated());
-
-// const authGuard = (to, from, next) => {
-//   if (to.meta.authIsRequired && !isUserAuthenticated()) {
-//     next({ name: "Home" });
-//   } else {
-//     next();
-//   }
-// };
+function getCurrentUser() {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
+  });
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -50,13 +48,17 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Sign In",
     },
-    beforeEnter: (to, from) => {
-      if (isUserAuthenticated() && from.name !== "Sign-Up") {
-        return {
-          name: "Main-Dashboard",
-        };
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   onAuthStateChanged(auth, (user) => {
+    //     if (!user) {
+    //       next();
+    //     } else if (user && from.name === "Sign-Up") {
+    //       next();
+    //     } else {
+    //       next({ name: "Main-Dashboard" });
+    //     }
+    //   });
+    // },
   },
   {
     path: "/forgot-password",
@@ -72,15 +74,17 @@ const routes: Array<RouteRecordRaw> = [
     component: DashboardView,
     meta: {
       title: "Dashboard",
-      authIsRequired: true,
+      requiresAuth: true,
     },
-    beforeEnter: (to, from) => {
-      if (!isUserAuthenticated()) {
-        return {
-          name: "Home",
-        };
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       next();
+    //     } else {
+    //       next({ name: "Sign-In" });
+    //     }
+    //   });
+    // },
     children: [
       {
         path: "",
@@ -88,14 +92,17 @@ const routes: Array<RouteRecordRaw> = [
         component: MainDashboardView,
         meta: {
           title: "Dashboard",
+          requiresAuth: true,
         },
-        beforeEnter: (to, from) => {
-          if (!isUserAuthenticated()) {
-            return {
-              name: "Home",
-            };
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //       next();
+        //     } else {
+        //       next({ name: "Sign-In" });
+        //     }
+        //   });
+        // },
       },
       {
         path: "profile",
@@ -103,14 +110,17 @@ const routes: Array<RouteRecordRaw> = [
         component: ProfileView,
         meta: {
           title: "Profile",
+          requiresAuth: true,
         },
-        beforeEnter: (to, from) => {
-          if (!isUserAuthenticated()) {
-            return {
-              name: "Home",
-            };
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //       next();
+        //     } else {
+        //       next({ name: "Sign-In" });
+        //     }
+        //   });
+        // },
       },
       {
         path: "create-hospital",
@@ -118,14 +128,17 @@ const routes: Array<RouteRecordRaw> = [
         component: CreateHospitalView,
         meta: {
           title: "Create Hospital",
+          requiresAuth: true,
         },
-        beforeEnter: (to, from) => {
-          if (!isUserAuthenticated()) {
-            return {
-              name: "Home",
-            };
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //       next();
+        //     } else {
+        //       next({ name: "Sign-In" });
+        //     }
+        //   });
+        // },
       },
     ],
   },
@@ -147,6 +160,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `Care Path | ${to.meta.title}`;
   next();
+});
+
+router.beforeEach(async (to) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  if (requiresAuth && !(await getCurrentUser())) {
+    return "/sign-in";
+  }
 });
 
 export default router;

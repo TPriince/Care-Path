@@ -6,17 +6,33 @@ export default createStore({
   state: {
     user: null,
     currentUser: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        firstNameInitial: '',
-        profilePicture: '',
-        profileId: '',
-      },
+      firstName: "",
+      lastName: "",
+      email: "",
+      firstNameInitial: "",
+      profilePicture: "",
+      profileId: "",
+    },
     updatingUserStatus: false,
-    updatingUserMessage: '',
+    updatingUserMessage: "",
   },
-  getters: {},
+  getters: {
+    getUserProfilePicture(state) {
+      return state.currentUser.profilePicture;
+    },
+    getUserFirstName(state) {
+      return state.currentUser.firstName;
+    },
+    getUserLastName(state) {
+      return state.currentUser.lastName;
+    },
+    getUserFirstNameInitial(state) {
+      return state.currentUser.firstNameInitial;
+    },
+    getUserEmail(state) {
+      return state.currentUser.email;
+    },
+  },
   mutations: {
     updateUser(state, user) {
       state.user = user;
@@ -41,7 +57,7 @@ export default createStore({
     },
     setUpdatingUserMessage(state, payload) {
       state.updatingUserMessage = payload;
-    }
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -63,20 +79,28 @@ export default createStore({
             // console.log("Profile successfully updated!");
             commit("updateUserInfo", payload);
             commit("setUpdatingUserStatus", false);
-            commit("setUpdatingUserMessage", 'Changes saved! <span style="color: green;">✔</span>');
-          }
-          ).catch((error) => {
+            commit(
+              "setUpdatingUserMessage",
+              'Changes saved! <span style="color: green;">✔</span>'
+            );
+          })
+          .catch((error) => {
             console.error("Error updating profile: ", error);
             commit("setUpdatingUserStatus", false);
-            commit("setUpdatingUserMessage", 'Error updating profile <span style="color: red;">✘</span>');
-          }
-          );
+            commit(
+              "setUpdatingUserMessage",
+              'Error updating profile <span style="color: red;">✘</span>'
+            );
+          });
       } catch (error) {
         commit("setUpdatingUserStatus", false);
-        commit("setUpdatingUserMessage", 'Error updating profile <span style="color: red;">✘</span>');
+        commit(
+          "setUpdatingUserMessage",
+          'Error updating profile <span style="color: red;">✘</span>'
+        );
         console.log(error);
       }
-    }
+    },
   },
   modules: {},
 });
