@@ -2,11 +2,11 @@
     <section class="form-section">
         <div class="left-container">
             <div class="img-container">
-                <img src="../assets/images/hero-image1.png" loading="lazy" />
+                <img src="../assets/images/care-path.png" loading="lazy" />
             </div>
         </div>
         <div class="form-wrapper">
-            <FormComponent activeLink="sign-in" @isLoading="value => showLoader = value"/>
+            <FormComponent activeLink="sign-in" @isLoading="value => showLoader = value" />
         </div>
         <LoaderComponent v-if="showLoader" />
     </section>

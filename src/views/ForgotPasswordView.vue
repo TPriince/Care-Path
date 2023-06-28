@@ -2,7 +2,7 @@
     <section class="form-section">
         <div class="left-container">
             <div class="img-container">
-                <img src="../assets/images/hero-image1.png" loading="lazy" />
+                <img src="../assets/images/care-path.png" loading="lazy" />
             </div>
         </div>
         <div class="form-wrapper">
@@ -143,7 +143,7 @@ input:focus {
     outline: none;
 }
 
-form > div {
+form>div {
     margin-bottom: 1.5rem;
 }
 
@@ -227,9 +227,10 @@ label {
         font-size: var(--h3-font-size);
     }
 
-    form > div {
+    form>div {
         margin-bottom: 1rem;
     }
+
     .small-text {
         font-size: 0.8rem;
     }
