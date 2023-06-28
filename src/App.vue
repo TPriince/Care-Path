@@ -95,8 +95,8 @@ export default defineComponent({
   --dark-blue: #0000b8;
   --dark-blue-hover: #0000e6;
   --sm-text-color: #6565f6;
-  --nav-bg-color: #CBE2DD;
-  --main-bg-color: #CBE2DD;
+  --nav-bg-color: #bfe4dc;
+  --main-bg-color: #bfe4dc;
   --whitish: #ffffff;
   --tealish: linear-gradient(145deg, rgb(0, 180, 216, 0.2), rgb(0, 150, 199, 0.2));
   --tealish-hover: linear-gradient(145deg, rgb(0, 180, 216, 0.3), rgb(0, 150, 199, 0.3));

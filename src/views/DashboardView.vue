@@ -233,7 +233,7 @@ export default defineComponent({
     position: absolute;
     top: 0;
     left: 90%;
-    width: 140px;
+    width: 155px;
     opacity: 0;
     font-weight: 400;
     z-index: var(--z-modal);
@@ -382,6 +382,7 @@ export default defineComponent({
 
     #dashboard.toggle-sidebar .sidebar {
         transform: translateX(0);
+        z-index: var(--z-modal);
     }
 
     .search-and-profile {
