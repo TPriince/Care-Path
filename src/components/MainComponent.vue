@@ -30,7 +30,6 @@
                 </div>
             </div>
             <div class="hero-img__container">
-                <!-- <img class="hero-img" src="../assets/images/hero-image2.png" alt="hero image" loading="lazy" /> -->
             </div>
         </section>
         <slot></slot>
@@ -90,7 +89,7 @@ export default defineComponent({
 }
 
 .hero-img__container {
-    background-image: url('../assets/images/hero-image2.png');
+    background-image: url('../assets/images/care-path.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
