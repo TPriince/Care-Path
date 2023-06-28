@@ -1,9 +1,8 @@
 <template>
     <section class="form-section">
         <div class="left-container">
-            <!-- <RouterLink class="nav-logo" to="/"><span class="nav-logo__care">Care</span>Path</RouterLink> -->
             <div class="img-container">
-                <img src="../assets/images/care-path.png" loading="lazy" />
+                <img src="../assets/images/care-path2.png" loading="lazy" />
             </div>
         </div>
         <div class="form-wrapper">
