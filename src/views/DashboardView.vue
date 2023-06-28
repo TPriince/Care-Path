@@ -236,6 +236,7 @@ export default defineComponent({
     width: 140px;
     opacity: 0;
     font-weight: 400;
+    z-index: var(--z-modal);
 }
 
 #dashboard.toggle-sidebar .sidebar {
