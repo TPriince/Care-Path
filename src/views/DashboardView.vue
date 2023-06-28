@@ -34,16 +34,11 @@
                     <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
                     <div class="tooltip">Calendar</div>
                 </li>
-                <li :class="{ active: activeLink === 'appointments' }" @click="activeLink = 'appointments'">
-                    <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Appointments</span>
-                    <div class="tooltip">Appointments</div>
-                </li>
                 <RouterLink to="/dashboard/create-hospital">
                     <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
-                        <span class="sidebar-icon"><i class='bx bx-stats'></i></span>
+                        <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
                         <span class="sidebar-item" v-show="!toggleSideBar">Create Hospital</span>
-                        <div class="tooltip">Statistics</div>
+                        <div class="tooltip">Create Hospital</div>
                     </li>
                 </RouterLink>
                 <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
@@ -187,7 +182,6 @@ export default defineComponent({
 .active .bxs-grid-alt,
 .active .bxs-calendar,
 .active .bxs-plus-square,
-.active .bx-stats,
 .active .bxs-conversation,
 .active .bx-support,
 .active .bx-log-out,
