@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vavt/md-editor-extension": "^3.0.0",
+    "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "firebase": "^9.22.2",
     "md-editor-v3": "^4.2.0",

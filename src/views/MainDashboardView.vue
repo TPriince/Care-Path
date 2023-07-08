@@ -15,10 +15,10 @@
                 <div class="card card-1">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">Total Doctors</h5>
-                            <h1>28</h1>
+                            <h5 class="card-title">LGA Hospitals</h5>
+                            <h1>{{ lgaHospitals.length }}</h1>
                         </div>
-                        <i class='bx bxs-user'></i>
+                        <i class='bx bxs-location-plus'></i>
                     </div>
                     <div class="card-stats">
                         <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
@@ -29,10 +29,10 @@
                 <div class="card card-2">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">Total Patients</h5>
-                            <h1>64</h1>
+                            <h5 class="card-title">State Hospitals</h5>
+                            <h1>{{ hospitals.length }}</h1>
                         </div>
-                        <i class='bx bx-user'></i>
+                        <i class='bx bx-location-plus'></i>
                     </div>
                     <div class="card-stats">
                         <span><i class='bx bxs-bar-chart-alt-2'></i>65%</span>
@@ -43,10 +43,10 @@
                 <div class="card card-3">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">Shedule</h5>
-                            <h1>101</h1>
+                            <h5 class="card-title">Private Ownership</h5>
+                            <h1>{{ privateHospitals.length }}</h1>
                         </div>
-                        <i class='bx bx-calendar'></i>
+                        <i class='bx bxs-shield-plus'></i>
                     </div>
                     <div class="card-stats">
                         <span><i class='bx bxs-bar-chart-alt-2'></i>27%</span>
@@ -57,10 +57,10 @@
                 <div class="card card-4">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">Beds Available</h5>
-                            <h1>183</h1>
+                            <h5 class="card-title">Public Ownership</h5>
+                            <h1>{{ publicHospitals.length }}</h1>
                         </div>
-                        <i class='bx bxs-hotel'></i>
+                        <i class='bx bx-shield-plus'></i>
                     </div>
                     <div class="card-stats">
                         <span><i class='bx bxs-bar-chart-alt-2'></i>9%</span>
@@ -90,14 +90,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, ref, watch, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
     name: 'MainDashboardView',
-    // components: {},
-    // setup() {
-    //     return {}
-    // },
+    setup() {
+        const store = useStore();
+
+        const hospitals = computed(() => store.state.hospitals);
+        const lgaHospitals = computed(() => store.state.lgaHospitals);
+        const privateHospitals = computed(() => {
+            return lgaHospitals.value.filter((h: any) => h.hospital.ownership === 'Private');
+        });
+        const publicHospitals = computed(() => {
+            return lgaHospitals.value.filter((h: any) => h.hospital.ownership === 'Public');
+        });
+
+        return {
+            lgaHospitals,
+            hospitals,
+            privateHospitals,
+            publicHospitals,
+        }
+    },
 })
 </script>
 
@@ -156,11 +172,11 @@ export default defineComponent({
     margin-bottom: 5px;
 }
 
-.card-data .bxs-user,
-.bx-user,
-.bx-calendar,
-.bxs-hotel {
-    font-size: 3rem;
+.card-data .bxs-location-plus,
+.bx-location-plus,
+.bxs-shield-plus,
+.bx-shield-plus {
+    font-size: 2.9rem;
 }
 
 .bxs-bar-chart-alt-2 {

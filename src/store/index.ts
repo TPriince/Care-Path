@@ -1,6 +1,13 @@
 import { createStore } from "vuex";
-import { db, auth } from "../firebase/config";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db, auth, hospitalsCollectionRef } from "../firebase/config";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 export default createStore({
   state: {
@@ -13,25 +20,11 @@ export default createStore({
       profilePicture: "",
       profileId: "",
     },
+    userLocation: null,
+    hospitals: [],
+    lgaHospitals: [],
     updatingUserStatus: false,
     updatingUserMessage: "",
-  },
-  getters: {
-    getUserProfilePicture(state) {
-      return state.currentUser.profilePicture;
-    },
-    getUserFirstName(state) {
-      return state.currentUser.firstName;
-    },
-    getUserLastName(state) {
-      return state.currentUser.lastName;
-    },
-    getUserFirstNameInitial(state) {
-      return state.currentUser.firstNameInitial;
-    },
-    getUserEmail(state) {
-      return state.currentUser.email;
-    },
   },
   mutations: {
     updateUser(state, user) {
@@ -45,6 +38,15 @@ export default createStore({
       state.currentUser.profilePicture = payload.data().profilePicture;
       state.currentUser.profileId = payload.id;
       // console.log(state.currentUser)
+    },
+    updateUserLocation(state, payload) {
+      state.userLocation = payload;
+    },
+    setHospitals(state, payload) {
+      state.hospitals = payload;
+    },
+    setLgaHospitals(state, payload) {
+      state.lgaHospitals = payload;
     },
     updateUserInfo(state, payload) {
       state.currentUser.firstName = payload.firstName;
@@ -98,6 +100,48 @@ export default createStore({
           "setUpdatingUserMessage",
           'Error updating profile <span style="color: red;">✘</span>'
         );
+        console.log(error);
+      }
+    },
+    async getHospitals({ commit }, payload) {
+      try {
+        const q = query(
+          hospitalsCollectionRef,
+          where("hospital.state", "==", payload[0])
+        );
+        const querySnapshot = await getDocs(q);
+        // type hospitalObj = {
+        //   hospital: {
+        //     LGA: string;
+        //     facilityCode: string;
+        //     facilityLevel: string;
+        //     facilityName: string;
+        //     facilityUID: string;
+        //     ownership: string;
+        //     state: string;
+        //     ward: string;
+        //   };
+        let hospitals: any[] = [];
+        querySnapshot.forEach((doc) => {
+          hospitals.push(doc.data());
+        });
+        if (hospitals.length > 0) {
+          commit("setHospitals", hospitals);
+          const lgaHospitals = hospitals.filter(
+            (hospital) => hospital.hospital.LGA === payload[1]
+          );
+          // console.log("LGA hospitals", lgaHospitals);
+          if (lgaHospitals.length > 0) {
+            commit("setLgaHospitals", lgaHospitals);
+          } else {
+            // console.log("No hospitals in this LGA");
+            commit("setLgaHospitals", []);
+          }
+        } else {
+          // console.log("No hospitals in this state");
+          commit("setHospitals", []);
+        }
+      } catch (error) {
         console.log(error);
       }
     },

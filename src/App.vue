@@ -4,12 +4,13 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, ref, watch, provide } from 'vue';
+import { defineComponent, ref, watch, provide, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/config';
 import { useStore } from 'vuex';
 import NavBar from './components/NavBar.vue'
+import axios from 'axios';
 
 export default defineComponent({
   name: 'App',
@@ -20,11 +21,14 @@ export default defineComponent({
     const route = useRoute();
     const store = useStore();
 
+    const userLocation = computed(() => store.state.userLocation)
+
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
+      // console.log(user)
       store.commit('updateUser', user)
       // console.log(user)
       if (user) {
+        console.log('User is signed in')
         // console.log(user.uid)
         store.dispatch('getCurrentUser');
       } else {
@@ -32,6 +36,46 @@ export default defineComponent({
       }
     }
     );
+
+    const getUserLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position.coords.latitude, position.coords.longitude);
+          axios.get("https://feroeg-reverse-geocoding.p.rapidapi.com/address", {
+            headers: {
+              "X-RapidAPI-Key": "f44230bef1msh6b8cf8b3ddb23cep1413a2jsna7b7655b8e3b",
+              "X-RapidAPI-Host": "feroeg-reverse-geocoding.p.rapidapi.com",
+            },
+            params: {
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              lang: "en",
+              mode: "text",
+              format: '\'[SN[, ] - [23456789ab[, ]\''
+            }
+          })
+            .then(response => {
+              // console.log(response.data);
+              const address = response.data;
+              const addressArr = address.split(", ")
+              const state = addressArr[1].split(" ")[0];
+              const LGA = addressArr[2]
+              // console.log(state);
+              store.commit('updateUserLocation', state);
+              store.dispatch('getHospitals', [state, LGA]);
+            })
+            .catch(err => {
+              console.log(err);
+            })
+        })
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+
+    if (userLocation.value === null) {
+      getUserLocation();
+    }
 
     const showNavBar = ref(true);
     const showMobileNav = ref(false);
