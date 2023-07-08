@@ -121,7 +121,7 @@ export default createStore({
         //     state: string;
         //     ward: string;
         //   };
-        let hospitals: any[] = [];
+        const hospitals: any[] = [];
         querySnapshot.forEach((doc) => {
           hospitals.push(doc.data());
         });
