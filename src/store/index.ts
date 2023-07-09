@@ -21,8 +21,8 @@ export default createStore({
       profileId: "",
     },
     userLocation: null,
+    userLGA: null,
     hospitals: [],
-    lgaHospitals: [],
     updatingUserStatus: false,
     updatingUserMessage: "",
   },
@@ -42,11 +42,11 @@ export default createStore({
     updateUserLocation(state, payload) {
       state.userLocation = payload;
     },
+    updateUserLGA(state, payload) {
+      state.userLGA = payload;
+    },
     setHospitals(state, payload) {
       state.hospitals = payload;
-    },
-    setLgaHospitals(state, payload) {
-      state.lgaHospitals = payload;
     },
     updateUserInfo(state, payload) {
       state.currentUser.firstName = payload.firstName;
@@ -107,7 +107,7 @@ export default createStore({
       try {
         const q = query(
           hospitalsCollectionRef,
-          where("hospital.state", "==", payload[0])
+          where("hospital.state", "==", payload)
         );
         const querySnapshot = await getDocs(q);
         // type hospitalObj = {
@@ -126,17 +126,8 @@ export default createStore({
           hospitals.push(doc.data());
         });
         if (hospitals.length > 0) {
+          // console.log("Hospitals in this state");
           commit("setHospitals", hospitals);
-          const lgaHospitals = hospitals.filter(
-            (hospital) => hospital.hospital.LGA === payload[1]
-          );
-          // console.log("LGA hospitals", lgaHospitals);
-          if (lgaHospitals.length > 0) {
-            commit("setLgaHospitals", lgaHospitals);
-          } else {
-            // console.log("No hospitals in this LGA");
-            commit("setLgaHospitals", []);
-          }
         } else {
           // console.log("No hospitals in this state");
           commit("setHospitals", []);

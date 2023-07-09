@@ -29,11 +29,13 @@
                         <div class="tooltip">Dashboard</div>
                     </li>
                 </RouterLink>
-                <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
-                    <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
-                    <div class="tooltip">Calendar</div>
-                </li>
+                <RouterLink to="/dashboard/calendar">
+                    <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
+                        <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
+                        <div class="tooltip">Calendar</div>
+                    </li>
+                </RouterLink>
                 <RouterLink to="/dashboard/create-hospital">
                     <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
                         <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
@@ -41,16 +43,20 @@
                         <div class="tooltip">Create Hospital</div>
                     </li>
                 </RouterLink>
-                <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
-                    <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
-                    <div class="tooltip">Chat</div>
-                </li>
-                <li :class="{ active: activeLink === 'support' }" @click="activeLink = 'support'">
-                    <span class="sidebar-icon"><i class='bx bx-support'></i></span>
-                    <span class="sidebar-item" v-show="!toggleSideBar">Support</span>
-                    <div class="tooltip">Support</div>
-                </li>
+                <RouterLink to="/dashboard/chat">
+                    <li :class="{ active: activeLink === 'chat' }" @click="activeLink = 'chat'">
+                        <span class="sidebar-icon"><i class='bx bxs-conversation'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Chat</span>
+                        <div class="tooltip">Chat</div>
+                    </li>
+                </RouterLink>
+                <RouterLink to="/dashboard/support">
+                    <li :class="{ active: activeLink === 'support' }" @click="activeLink = 'support'">
+                        <span class="sidebar-icon"><i class='bx bx-support'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Support</span>
+                        <div class="tooltip">Support</div>
+                    </li>
+                </RouterLink>
             </ul>
             <ul class="sidebar-bottom-items">
                 <li :class="{ active: activeLink === 'logout' }" @click="handleSignOut">
@@ -99,7 +105,7 @@ export default defineComponent({
                     console.log(position.coords.latitude, position.coords.longitude);
                     axios.get("https://feroeg-reverse-geocoding.p.rapidapi.com/address", {
                         headers: {
-                            "X-RapidAPI-Key": "f44230bef1msh6b8cf8b3ddb23cep1413a2jsna7b7655b8e3b",
+                            "X-RapidAPI-Key": `${process.env.VUE_APP_RAPID_API_KEY}`,
                             "X-RapidAPI-Host": "feroeg-reverse-geocoding.p.rapidapi.com",
                         },
                         params: {
@@ -116,7 +122,7 @@ export default defineComponent({
                             const address = addr.split(", ")
                             const state = address[1].split(" ")[0];
                             const LGA = address[2]
-                            console.log(state);
+                            // console.log(state);
                             store.commit('updateUserLocation', state);
                             store.dispatch('getHospitals', [state, LGA]);
                         })

@@ -28,11 +28,11 @@ export default defineComponent({
       store.commit('updateUser', user)
       // console.log(user)
       if (user) {
-        console.log('User is signed in')
+        console.log('Signed in')
         // console.log(user.uid)
         store.dispatch('getCurrentUser');
       } else {
-        console.log('User is signed out');
+        console.log('Signed out');
       }
     }
     );
@@ -43,7 +43,7 @@ export default defineComponent({
           console.log(position.coords.latitude, position.coords.longitude);
           axios.get("https://feroeg-reverse-geocoding.p.rapidapi.com/address", {
             headers: {
-              "X-RapidAPI-Key": "f44230bef1msh6b8cf8b3ddb23cep1413a2jsna7b7655b8e3b",
+              "X-RapidAPI-Key": `${process.env.VUE_APP_RAPID_API_KEY}`,
               "X-RapidAPI-Host": "feroeg-reverse-geocoding.p.rapidapi.com",
             },
             params: {
@@ -60,9 +60,10 @@ export default defineComponent({
               const addressArr = address.split(", ")
               const state = addressArr[1].split(" ")[0];
               const LGA = addressArr[2]
-              // console.log(state);
+              // console.log(state, LGA);
               store.commit('updateUserLocation', state);
-              store.dispatch('getHospitals', [state, LGA]);
+              store.commit('updateUserLGA', LGA);
+              store.dispatch('getHospitals', state);
             })
             .catch(err => {
               console.log(err);
@@ -87,7 +88,7 @@ export default defineComponent({
     provide('showMobileNav', showMobileNav);
     provide('toggleMobileNav', toggleMobileNav);
 
-    const routeNames = ["Sign-Up", "Sign-In", "Forgot-Password", "Dashboard", "Main-Dashboard", "Profile", "Create-Hospital", "Error-page"];
+    const routeNames = ["Sign-Up", "Sign-In", "Forgot-Password", "Dashboard", "Main-Dashboard", "Profile", "Create-Hospital", "Calendar", "Chat", "Support", "Error-page"];
 
     const onCheckRoute = () => {
       if (routeNames.includes(route.name as string)) {
@@ -345,18 +346,4 @@ h6 {
     display: none;
   }
 }
-
-
-/* @media (prefers-color-scheme: light) {
-    :root {
-      color: #213547;
-      background-color: #ffffff;
-    }
-    a:hover {
-      color: #747bff;
-    }
-    button {
-      background-color: #f9f9f9;
-    }
-  } */
 </style>

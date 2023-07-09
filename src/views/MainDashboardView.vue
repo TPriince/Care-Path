@@ -15,8 +15,8 @@
                 <div class="card card-1">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">LGA Hospitals</h5>
-                            <h1>{{ lgaHospitals.length }}</h1>
+                            <h5 class="card-title">State Hospitals</h5>
+                            <h1>{{ hospitals.length }}</h1>
                         </div>
                         <i class='bx bxs-location-plus'></i>
                     </div>
@@ -29,8 +29,8 @@
                 <div class="card card-2">
                     <div class="card-data">
                         <div class="card-content">
-                            <h5 class="card-title">State Hospitals</h5>
-                            <h1>{{ hospitals.length }}</h1>
+                            <h5 class="card-title">LGA Hospitals</h5>
+                            <h1>{{ lgaHospitals.length }}</h1>
                         </div>
                         <i class='bx bx-location-plus'></i>
                     </div>
@@ -73,16 +73,59 @@
         <div class="hospitals">
             <div class="title">
                 <h1 class="section__title">Hospitals</h1>
-                <div class="add-hospital-section">
-                    <select name="date" id="date" class="dropdown">
-                        <option value="">Filter</option>
-                        <option value="today">Today</option>
-                        <option value="lastweek">Last week</option>
-                        <option value="lastmonth">Last Month</option>
-                        <option value="lastyear">Last Year</option>
-                        <option value="alltime">All Time</option>
+                <div class="filter-hospital-section">
+                    <p>Filter by LGA</p>
+                    <select name="lga" id="lga" class="dropdown" v-model="localGovernmentArea">
+                        <option v-for="(lga, index) in lgasArr" :key="index" :value="lga">{{ lga }}</option>
                     </select>
-                    <button class="add-btn">Add Hospital</button>
+                </div>
+            </div>
+            <div class="table-wrapper" v-show="lgaHospitals.length > 0">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>LGA</th>
+                            <th>Name</th>
+                            <th>Ward</th>
+                            <th>Level</th>
+                            <th>Facility Code</th>
+                            <th>Ownership</th>
+                            <th>Facility UID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="hospital in pagination" :key="hospital.id">
+                            <td>{{ hospital.hospital.state }}</td>
+                            <td>{{ hospital.hospital.LGA }}</td>
+                            <td>{{ hospital.hospital.facilityName }}</td>
+                            <td>{{ hospital.hospital.ward }}</td>
+                            <td>{{ hospital.hospital.facilityLevel }}</td>
+                            <td>{{ hospital.hospital.facilityCode }}</td>
+                            <td>{{ hospital.hospital.ownership }}</td>
+                            <td>{{ hospital.hospital.facilityUID }}</td>
+                            <!-- <td>
+                            <button class="edit-btn"><i class='bx bx-edit-alt'></i></button>
+                            <button class="delete-btn"><i class='bx bx-trash'></i></button>
+                        </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-btns-wrapper" v-show="lgaHospitals.length > 0">
+                <button class="page-btn" v-for="(page, index) in buttonPages" :key="index" @click="handleSetPage(page)"
+                    :class="{ 'current-page-btn': currentPage === page }">
+                    {{ page }}
+                </button>
+            </div>
+            <div class="no-data" v-show="hospitals.length > 0 && lgaHospitals.length === 0">
+                <div>
+                    <h2>No hospitals Found in this Local Goverment Area. Try filtering by LGA.</h2>
+                </div>
+            </div>
+            <div class="no-data" v-if="hospitals.length === 0">
+                <div>
+                    <h2>Sorry, no hospitals found in this region.</h2>
                 </div>
             </div>
         </div>
@@ -90,7 +133,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, onMounted } from 'vue';
+import { defineComponent, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -99,19 +142,62 @@ export default defineComponent({
         const store = useStore();
 
         const hospitals = computed(() => store.state.hospitals);
-        const lgaHospitals = computed(() => store.state.lgaHospitals);
+        const localGovernmentArea = ref(store.state.userLGA);
+        // console.log(localGovernmentArea.value)
+        const lgaHospitals = computed(() => hospitals.value.filter((h: any) => h.hospital.LGA === localGovernmentArea.value));
+
         const privateHospitals = computed(() => {
-            return lgaHospitals.value.filter((h: any) => h.hospital.ownership === 'Private');
+            return hospitals.value.filter((h: any) => h.hospital.ownership === 'Private');
         });
         const publicHospitals = computed(() => {
-            return lgaHospitals.value.filter((h: any) => h.hospital.ownership === 'Public');
+            return hospitals.value.filter((h: any) => h.hospital.ownership === 'Public');
         });
 
+        const lgas = computed(() => hospitals.value.map((h: any) => h.hospital.LGA));
+        const lgasArr = ref(Array.from(new Set(lgas.value)));
+        const PER_PAGE = 10;
+        const page = ref(1);
+        const pages = ref(1);
+        const currentPage = ref(1);
+        pages.value = Math.ceil(lgaHospitals.value.length / PER_PAGE);
+        const from = ref(page.value * PER_PAGE - PER_PAGE);
+
+        watch(hospitals, () => {
+            localGovernmentArea.value = store.state.userLGA;
+        })
+
+        watch(lgaHospitals, () => {
+            page.value = 1;
+            pages.value = Math.ceil(lgaHospitals.value.length / PER_PAGE);
+            lgasArr.value = Array.from(new Set(lgas.value));
+        })
+
+        const pagination = computed(() => {
+            let to = from.value + PER_PAGE;
+            return lgaHospitals.value.slice(from.value, to);
+        })
+
+        const buttonPages = computed(() => {
+            return Array.from({ length: pages.value }, (_, i) => i + 1);
+        })
+
+        const handleSetPage = (pageNumber: number) => {
+            currentPage.value = pageNumber;
+            page.value = pageNumber;
+            from.value = page.value * PER_PAGE - PER_PAGE;
+        }
+
         return {
-            lgaHospitals,
             hospitals,
+            lgaHospitals,
             privateHospitals,
             publicHospitals,
+            lgasArr,
+            localGovernmentArea,
+            pagination,
+            buttonPages,
+            handleSetPage,
+            currentPage,
         }
     },
 })
@@ -256,32 +342,95 @@ export default defineComponent({
     color: rgb(128, 72, 72);
 }
 
-.add-hospital-section {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+.hospitals {
+    margin-bottom: 20px;
 }
 
-.add-btn {
+.filter-hospital-section {
     display: flex;
     align-items: center;
-    padding: 5px 10px;
-    outline: none;
-    border-radius: 5px;
+    gap: 5px;
+}
+
+.no-data {
+    margin-top: 20px;
+}
+
+.no-data h2 {
+    color: var(--dark-blue);
+    text-align: center;
+}
+
+.table-wrapper {
+    margin-top: 20px;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+tr {
+    border-bottom: 1px solid var(--sm-text-color);
+}
+
+th,
+td {
+    padding: 5px;
+    padding-block: 12px;
+}
+
+thead tr {
+    background-color: var(--dark-blue);
+    color: var(--whitish);
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.page-btns-wrapper {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.page-btn {
     background-color: var(--sm-text-color);
     color: var(--whitish);
-    transition: all 0.3s ease;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: all ease 0.3s;
 }
 
-.add-btn:hover {
+.current-page-btn {
     background-color: var(--dark-blue-hover);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: all ease 0.3s;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1350px) {
     .cards {
         overflow-x: scroll;
     }
+}
+
+@media screen and (max-width: 1024px) {
+    table {
+        min-width: 600px;
+    }
+}
+
+@media screen and (max-width: 768px) {
 
     .card {
         margin-bottom: 20px;
@@ -291,9 +440,8 @@ export default defineComponent({
         align-self: start;
     }
 
-    .add-hospital-section {
+    .filter-hospital-section {
         flex-direction: column;
-        gap: 10px;
     }
 }
 
@@ -305,7 +453,7 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 300px) {
-    .add-hospital-section {
+    .filter-hospital-section {
         align-items: flex-start;
     }
 }

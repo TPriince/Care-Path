@@ -32,7 +32,9 @@
             <div class="hero-img__container">
             </div>
         </section>
-        <slot></slot>
+        <div class="get-started">
+            <RouterLink to="/sign-up"><button>Get started for free</button></RouterLink>
+        </div>
     </main>
 </template>
 
@@ -100,6 +102,27 @@ export default defineComponent({
     height: 450px;
 }
 
+.get-started {
+    position: relative;
+    top: -30px;
+    padding: 1rem 2rem;
+    background-color: var(--whitish);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.get-started button {
+    color: var(--dark-blue);
+    font-weight: var(--font-semi-bold);
+    font-size: var(--h3-font-size);
+    background-color: transparent;
+}
+
+.get-started button:hover {
+    color: var(--dark-blue-hover);
+}
+
 @media screen and (max-width: 1024px) {
     .hero-img__container {
         height: 420px;
@@ -109,7 +132,7 @@ export default defineComponent({
 @media screen and (max-width: 768px) {
     .main-container {
         flex-direction: column;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         position: relative;
         text-align: center;
     }
@@ -139,6 +162,11 @@ export default defineComponent({
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+    }
+
+    .get-started {
+        position: static;
+        top: 0;
     }
 }
 
@@ -182,6 +210,13 @@ export default defineComponent({
     .hero-img__container {
         width: 250px;
         height: 400px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .get-started {
+        margin-left: 5px;
+        margin-right: 5px;
     }
 }
 </style>

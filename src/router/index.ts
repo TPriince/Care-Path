@@ -7,6 +7,7 @@ import ForgotPasswordView from "../views/ForgotPasswordView.vue";
 import MainDashboardView from "../views/MainDashboardView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import CreateHospitalView from "../views/CreateHospitalView.vue";
+import WorkInProgressView from "../views/WorkInProgressView.vue";
 import ErrorPageView from "../views/ErrorPageView.vue";
 import { auth } from "@/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
@@ -139,6 +140,33 @@ const routes: Array<RouteRecordRaw> = [
         //     }
         //   });
         // },
+      },
+      {
+        path: "calendar",
+        name: "Calendar",
+        component: WorkInProgressView,
+        meta: {
+          title: "Calendar",
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "chat",
+        name: "Chat",
+        component: WorkInProgressView,
+        meta: {
+          title: "Chat",
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "support",
+        name: "Support",
+        component: WorkInProgressView,
+        meta: {
+          title: "Support",
+          requiresAuth: true,
+        },
       },
     ],
   },
