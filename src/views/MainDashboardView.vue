@@ -141,8 +141,8 @@ export default defineComponent({
     setup() {
         const store = useStore();
 
-        const hospitals = computed(() => JSON.parse(localStorage.getItem('hospitals') || '[]'));
-        const localGovernmentArea = ref(JSON.parse(localStorage.getItem('LGA') || ''));
+        const hospitals = computed(() => store.state.hospitals);
+        const localGovernmentArea = ref(store.state.userLGA);
         // console.log(localGovernmentArea.value)
         const lgaHospitals = computed(() => hospitals.value.filter((h: any) => h.hospital.LGA === localGovernmentArea.value));
 
@@ -367,6 +367,7 @@ export default defineComponent({
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    /* position */
 }
 
 table {
@@ -389,7 +390,7 @@ td {
 
 thead {
     position: sticky;
-
+    top: 0;
 }
 
 thead tr {

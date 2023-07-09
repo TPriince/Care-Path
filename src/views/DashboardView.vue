@@ -82,6 +82,8 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import LoaderComponent from '@/components/LoaderComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
+import getUserLocation from '../utils/getUserLocation';
+import { getUserLocationFromStorage, getLGAFromStorage, getHospitalsFromStorage } from '../utils/getUserInfoFromStorage';
 
 export default defineComponent({
     name: 'DashboardView',
@@ -112,6 +114,16 @@ export default defineComponent({
                     localStorage.removeItem('hospitals');
                     router.replace('/');
                 })
+        }
+
+        if (getUserLocationFromStorage() === null) {
+            getUserLocation();
+        } else if (getHospitalsFromStorage() === null) {
+            store.dispatch('getHospitals', getUserLocationFromStorage());
+        } else {
+            store.commit('updateUserLocation', getUserLocationFromStorage());
+            store.commit('updateUserLGA', getLGAFromStorage());
+            store.commit('setHospitals', getHospitalsFromStorage());
         }
 
         const userProfilePicture = computed(() => store.state.currentUser.profilePicture);
