@@ -363,7 +363,7 @@ export default defineComponent({
 
 .table-wrapper {
     margin-top: 20px;
-    height: 300px;
+    height: 400px;
     overflow-y: scroll;
 }
 
@@ -382,12 +382,16 @@ tr {
 th,
 td {
     padding: 5px;
-    padding-block: 12px;
+    padding-block: 10px;
 }
 
 thead tr {
     background-color: var(--dark-blue);
     color: var(--whitish);
+}
+
+tbody tr {
+    font-size: var(--small-font-size);
 }
 
 tbody tr:nth-child(odd) {

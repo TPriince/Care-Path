@@ -23,8 +23,6 @@ export default defineComponent({
 
     const userLocation = computed(() => store.state.userLocation)
 
-    console.log(`${process.env.VUE_APP_RAPID_API_KEY}`)
-
     onAuthStateChanged(auth, (user) => {
       // console.log(user)
       store.commit('updateUser', user)
@@ -153,6 +151,9 @@ export default defineComponent({
   --greenish-hover: linear-gradient(to right, rgb(0, 176, 155, 0.7), rgb(149, 200, 60, 0.8));
   --pinkish: linear-gradient(to right, rgb(255, 0, 170, 0.3), rgb(255, 0, 170, 0.3));
   --pinkish-hover: linear-gradient(to right, rgb(255, 0, 170, 0.4), rgb(255, 0, 170, 0.4));
+
+  /* Box shadow */
+  --bx-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 
   /* z-index */
   --z-tooltip: 10;

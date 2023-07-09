@@ -81,7 +81,7 @@ export default defineComponent({
 .section-info {
     padding: 0.5rem 0.8rem;
     width: 150px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    box-shadow: var(--bx-shadow);
     background-color: white;
     border-radius: 5px;
     display: flex;
@@ -110,6 +110,7 @@ export default defineComponent({
     border-radius: 6px;
     margin-bottom: 20px;
     text-align: center;
+    box-shadow: var(--bx-shadow);
 }
 
 .get-started button {
