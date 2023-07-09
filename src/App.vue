@@ -23,6 +23,8 @@ export default defineComponent({
 
     const userLocation = computed(() => store.state.userLocation)
 
+    console.log(`${process.env.VUE_APP_RAPID_API_KEY}`)
+
     onAuthStateChanged(auth, (user) => {
       // console.log(user)
       store.commit('updateUser', user)
