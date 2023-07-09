@@ -1,6 +1,9 @@
 # Care-Path
 
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 **Table of Contents**
+
 - [Introduction](#introduction)
 - [Key Features](#key-features)
 - [Future Plans](#future-plans)
@@ -22,6 +25,7 @@
 Our vision for Care-Path extends beyond Nigeria. We plan to expand and include healthcare services from other countries to make it a comprehensive global healthcare directory. We aim to provide users worldwide with a reliable and user-friendly platform to find quality healthcare services wherever they are.
 
 Some of our planned future features include:
+
 - **Detailed Provider Information:** Each healthcare provider listing includes detailed information such as contact details, address, working hours, and services offered.
 - **User Reviews and Ratings:** Users can read and leave reviews and ratings for healthcare providers, helping others make informed decisions.
 - **Save Favorite Providers:** Users can save their favorite healthcare providers for quick access and future reference.
@@ -30,7 +34,6 @@ Some of our planned future features include:
 - **Multilingual Support:** Provide support for multiple languages to cater to a diverse user base.
 - **Appointment Booking:** Allow users to book appointments directly through the application for added convenience.
 - **Healthcare Provider Dashboard:** Offer a dashboard for healthcare providers to manage their profiles and interact with patients.
-
 
 ## Contributing
 
