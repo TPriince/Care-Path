@@ -21,8 +21,6 @@ export default defineComponent({
     const route = useRoute();
     const store = useStore();
 
-    const userLocation = computed(() => store.state.userLocation)
-
     onAuthStateChanged(auth, (user) => {
       // console.log(user)
       store.commit('updateUser', user)
@@ -61,6 +59,8 @@ export default defineComponent({
               const state = addressArr[1].split(" ")[0];
               const LGA = addressArr[2]
               // console.log(state, LGA);
+              localStorage.setItem('location', JSON.stringify(state));
+              localStorage.setItem('LGA', JSON.stringify(LGA));
               store.commit('updateUserLocation', state);
               store.commit('updateUserLGA', LGA);
               store.dispatch('getHospitals', state);
@@ -74,8 +74,33 @@ export default defineComponent({
       }
     }
 
-    if (userLocation.value === null) {
+    const getUserLocationFromStorage = () => {
+      const location = localStorage.getItem('location');
+      // console.log(location)
+      if (location) {
+        return JSON.parse(location);
+      } else {
+        return null;
+      }
+    }
+
+    const getHospitalsFromStorage = () => {
+      const hospitals = localStorage.getItem('hospitals');
+      // console.log(hospitals)
+      if (hospitals) {
+        return JSON.parse(hospitals);
+      } else {
+        return null;
+      }
+    }
+
+    if (getUserLocationFromStorage() === null) {
       getUserLocation();
+    } else if (getHospitalsFromStorage() === null) {
+      store.dispatch('getHospitals', getUserLocationFromStorage());
+    } else {
+      store.commit('updateUserLocation', getUserLocationFromStorage());
+      store.commit('setHospitals', getHospitalsFromStorage());
     }
 
     const showNavBar = ref(true);

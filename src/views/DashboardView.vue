@@ -82,7 +82,6 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import LoaderComponent from '@/components/LoaderComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
-import axios from 'axios';
 
 export default defineComponent({
     name: 'DashboardView',
@@ -95,49 +94,6 @@ export default defineComponent({
         const router = useRouter();
         const toggleSideBar = ref(false);
         const activeLink = ref('dashboard');
-
-        const userLocation = computed(() => store.state.userLocation)
-        // console.log(userLocation.value);
-
-        const getUserLocation = () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    console.log(position.coords.latitude, position.coords.longitude);
-                    axios.get("https://feroeg-reverse-geocoding.p.rapidapi.com/address", {
-                        headers: {
-                            "X-RapidAPI-Key": `${process.env.VUE_APP_RAPID_API_KEY}`,
-                            "X-RapidAPI-Host": "feroeg-reverse-geocoding.p.rapidapi.com",
-                        },
-                        params: {
-                            lat: position.coords.latitude,
-                            lon: position.coords.longitude,
-                            lang: "en",
-                            mode: "text",
-                            format: '\'[SN[, ] - [23456789ab[, ]\''
-                        }
-                    })
-                        .then(response => {
-                            console.log(response.data);
-                            const addr = response.data;
-                            const address = addr.split(", ")
-                            const state = address[1].split(" ")[0];
-                            const LGA = address[2]
-                            // console.log(state);
-                            store.commit('updateUserLocation', state);
-                            store.dispatch('getHospitals', [state, LGA]);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                })
-            } else {
-                console.log("Geolocation is not supported by this browser.");
-            }
-        }
-
-        if (userLocation.value === null) {
-            getUserLocation();
-        }
 
         const handleSignOut = () => {
             activeLink.value = 'logout';
@@ -208,6 +164,8 @@ export default defineComponent({
     grid-area: main;
     padding: 0 40px;
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     transition: all 0.2s ease;
 }
 

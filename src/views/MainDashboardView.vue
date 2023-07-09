@@ -141,8 +141,8 @@ export default defineComponent({
     setup() {
         const store = useStore();
 
-        const hospitals = computed(() => store.state.hospitals);
-        const localGovernmentArea = ref(store.state.userLGA);
+        const hospitals = computed(() => JSON.parse(localStorage.getItem('hospitals') || '[]'));
+        const localGovernmentArea = ref(JSON.parse(localStorage.getItem('LGA') || ''));
         // console.log(localGovernmentArea.value)
         const lgaHospitals = computed(() => hospitals.value.filter((h: any) => h.hospital.LGA === localGovernmentArea.value));
 
@@ -365,6 +365,8 @@ export default defineComponent({
     margin-top: 20px;
     height: 400px;
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 table {
@@ -383,6 +385,11 @@ th,
 td {
     padding: 5px;
     padding-block: 10px;
+}
+
+thead {
+    position: sticky;
+
 }
 
 thead tr {
@@ -425,6 +432,12 @@ tbody tr:nth-child(odd) {
 @media screen and (max-width: 1350px) {
     .cards {
         overflow-x: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .cards::-webkit-scrollbar {
+        display: none;
     }
 }
 

@@ -127,6 +127,7 @@ export default createStore({
         });
         if (hospitals.length > 0) {
           // console.log("Hospitals in this state");
+          localStorage.setItem("hospitals", JSON.stringify(hospitals));
           commit("setHospitals", hospitals);
         } else {
           // console.log("No hospitals in this state");
