@@ -63,8 +63,8 @@ export default defineComponent({
                 store.dispatch('getHospitals', state);
               } else {
                 const state = addressArr[1].split(" ")[0];
-                localStorage.setItem('state', JSON.stringify(state));
-                store.commit('updateUserState', state);
+                localStorage.setItem('location', JSON.stringify(state));
+                store.commit('updateUserLocation', state);
                 store.dispatch('getHospitals', state);
               }
               const LGA = addressArr[2]

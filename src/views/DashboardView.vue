@@ -100,10 +100,16 @@ export default defineComponent({
             signOut(auth)
                 .then(() => {
                     // console.log('User signed out');
+                    localStorage.removeItem('location');
+                    localStorage.removeItem('LGA');
+                    localStorage.removeItem('hospitals');
                     router.replace("/")
                 })
                 .catch(err => {
                     console.log(err.message);
+                    localStorage.removeItem('location');
+                    localStorage.removeItem('LGA');
+                    localStorage.removeItem('hospitals');
                     router.replace('/');
                 })
         }
