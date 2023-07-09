@@ -56,20 +56,21 @@ export default defineComponent({
               // console.log(response.data);
               const address = response.data;
               const addressArr = address.split(", ")
-              const state = addressArr[1].split(" ")[0];
+              if (addressArr[1] === "Federal Capital Territory") {
+                const state = "FCT"
+                localStorage.setItem('location', JSON.stringify(state));
+                store.commit('updateUserLocation', state);
+                store.dispatch('getHospitals', state);
+              } else {
+                const state = addressArr[1].split(" ")[0];
+                localStorage.setItem('state', JSON.stringify(state));
+                store.commit('updateUserState', state);
+                store.dispatch('getHospitals', state);
+              }
               const LGA = addressArr[2]
               // console.log(state, LGA);
               localStorage.setItem('LGA', JSON.stringify(LGA));
               store.commit('updateUserLGA', LGA);
-              if (state === "Federal Capital Territory") {
-                localStorage.setItem('location', JSON.stringify("FCT"));
-                store.commit('updateUserLocation', "FCT");
-                store.dispatch('getHospitals', "FCT");
-              } else {
-                localStorage.setItem('location', JSON.stringify(state));
-                store.commit('updateUserLocation', state);
-                store.dispatch('getHospitals', state);
-              }
             })
             .catch(err => {
               console.log(err);
