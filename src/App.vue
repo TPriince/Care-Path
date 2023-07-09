@@ -62,9 +62,9 @@ export default defineComponent({
               localStorage.setItem('LGA', JSON.stringify(LGA));
               store.commit('updateUserLGA', LGA);
               if (state === "Federal Capital Territory") {
-                localStorage.setItem('location', JSON.stringify("Abuja"));
-                store.commit('updateUserLocation', "Abuja");
-                store.dispatch('getHospitals', "Abuja");
+                localStorage.setItem('location', JSON.stringify("FCT"));
+                store.commit('updateUserLocation', "FCT");
+                store.dispatch('getHospitals', "FCT");
               } else {
                 localStorage.setItem('location', JSON.stringify(state));
                 store.commit('updateUserLocation', state);
