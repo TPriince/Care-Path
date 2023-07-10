@@ -167,7 +167,9 @@ export default defineComponent({
         })
 
         watch(lgaHospitals, () => {
+            currentPage.value = 1;
             page.value = 1;
+            from.value = page.value * PER_PAGE - PER_PAGE;
             pages.value = Math.ceil(lgaHospitals.value.length / PER_PAGE);
             lgasArr.value = Array.from(new Set(lgas.value));
         })

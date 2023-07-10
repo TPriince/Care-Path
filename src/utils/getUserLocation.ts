@@ -6,36 +6,39 @@ const getUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position.coords.latitude, position.coords.longitude);
       axios
-        .get("https://feroeg-reverse-geocoding.p.rapidapi.com/address", {
+        .get("https://forward-reverse-geocoding.p.rapidapi.com/v1/reverse", {
           headers: {
             "X-RapidAPI-Key": `${process.env.VUE_APP_RAPID_API_KEY}`,
-            "X-RapidAPI-Host": "feroeg-reverse-geocoding.p.rapidapi.com",
+            "X-RapidAPI-Host": "forward-reverse-geocoding.p.rapidapi.com",
           },
           params: {
             lat: position.coords.latitude,
             lon: position.coords.longitude,
-            lang: "en",
-            mode: "text",
-            format: "'[SN[, ] - [23456789ab[, ]'",
+            "accept-language": "en",
+            polygon_threshold: "0.0",
           },
         })
         .then((response) => {
           // console.log(response.data);
-          const address = response.data;
-          const addressArr = address.split(", ");
-          if (addressArr[1] === "Federal Capital Territory") {
+          if (response.data.address.state === "Federal Capital Territory") {
             const state = "FCT";
+            // console.log(state);
             localStorage.setItem("location", JSON.stringify(state));
             store.commit("updateUserLocation", state);
             store.dispatch("getHospitals", state);
           } else {
-            const state = addressArr[1].split(" ")[0];
+            const state = response.data.address.state.split(" ")[0];
+            // console.log(state);
             localStorage.setItem("location", JSON.stringify(state));
             store.commit("updateUserLocation", state);
             store.dispatch("getHospitals", state);
           }
-          const LGA = addressArr[2];
-          // console.log(state, LGA);
+          const LGA =
+            response.data.address.county ||
+            response.data.address.city ||
+            response.data.address.suburb ||
+            "";
+          // console.log(LGA);
           localStorage.setItem("LGA", JSON.stringify(LGA));
           store.commit("updateUserLGA", LGA);
         })

@@ -99,7 +99,6 @@ export default defineComponent({
     top: 0;
     left: 0;
     right: 0;
-    /* max-width: 1200px; */
     width: 100%;
     margin: auto;
     display: flex;
@@ -389,4 +388,9 @@ export default defineComponent({
     .bx-menu {
         right: 16px;
     }
-}</style>
+
+    .bx-x {
+        right: 16px;
+    }
+}
+</style>
