@@ -6,10 +6,10 @@
                 <RouterLink class="logo" to="/"><span class="logo-care">Care</span>Path</RouterLink>
             </div>
             <div class="search-and-profile">
-                <div class="search">
+                <!-- <div class="search">
                     <input type="text" placeholder="Search hospitals">
                     <button class="search-icon__btn"><i class='bx bx-search-alt'></i></button>
-                </div>
+                </div> -->
                 <RouterLink to="/dashboard/profile">
                     <div class="profile">
                         <div class="user-profile">
@@ -171,8 +171,9 @@ export default defineComponent({
     grid-area: header;
     padding: 0 40px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     width: 100%;
 }
@@ -295,8 +296,8 @@ export default defineComponent({
 
 .search-and-profile {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: flex-end;
+    /* gap: 10px; */
     align-items: center;
     width: calc(100% - 250px);
 }
