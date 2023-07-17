@@ -142,11 +142,11 @@ const routes: Array<RouteRecordRaw> = [
         // },
       },
       {
-        path: "calendar",
-        name: "Calendar",
+        path: "admin",
+        name: "Admin",
         component: WorkInProgressView,
         meta: {
-          title: "Calendar",
+          title: "Admin",
           requiresAuth: true,
         },
       },

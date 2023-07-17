@@ -6,10 +6,10 @@
                 <RouterLink class="logo" to="/"><span class="logo-care">Care</span>Path</RouterLink>
             </div>
             <div class="search-and-profile">
-                <!-- <div class="search">
-                    <input type="text" placeholder="Search hospitals">
+                <div class="search">
+                    <input type="text" placeholder="Search hospital name" :value="searchText" @input="searchHospitals">
                     <button class="search-icon__btn"><i class='bx bx-search-alt'></i></button>
-                </div> -->
+                </div>
                 <RouterLink to="/dashboard/profile">
                     <div class="profile">
                         <div class="user-profile">
@@ -29,18 +29,18 @@
                         <div class="tooltip">Dashboard</div>
                     </li>
                 </RouterLink>
-                <RouterLink to="/dashboard/calendar">
-                    <li :class="{ active: activeLink === 'calendar' }" @click="activeLink = 'calendar'">
-                        <span class="sidebar-icon"><i class='bx bxs-calendar'></i></span>
-                        <span class="sidebar-item" v-show="!toggleSideBar">Calendar</span>
-                        <div class="tooltip">Calendar</div>
-                    </li>
-                </RouterLink>
                 <RouterLink to="/dashboard/create-hospital">
                     <li :class="{ active: activeLink === 'statistics' }" @click="activeLink = 'statistics'">
                         <span class="sidebar-icon"><i class='bx bxs-plus-square'></i></span>
                         <span class="sidebar-item" v-show="!toggleSideBar">Create Hospital</span>
                         <div class="tooltip">Create Hospital</div>
+                    </li>
+                </RouterLink>
+                <RouterLink to="/dashboard/admin">
+                    <li :class="{ active: activeLink === 'admin' }" @click="activeLink = 'admin'">
+                        <span class="sidebar-icon"><i class='bx bxs-user'></i></span>
+                        <span class="sidebar-item" v-show="!toggleSideBar">Admin</span>
+                        <div class="tooltip">Admin</div>
                     </li>
                 </RouterLink>
                 <RouterLink to="/dashboard/chat">
@@ -135,6 +135,17 @@ export default defineComponent({
             store.commit('setUpdatingUserMessage', '');
         }
 
+        const searchText = ref('');
+
+        const searchHospitals = (e: Event) => {
+            searchText.value = (e.target as HTMLInputElement).value;
+            if (searchText.value.length > 0) {
+                store.commit('setHospitals', getHospitalsFromStorage().filter((h: any) => h.hospital.facilityName.toLowerCase().includes(searchText.value.toLowerCase())));
+            } else {
+                store.commit('setHospitals', getHospitalsFromStorage());
+            }
+        }
+
         return {
             toggleSideBar,
             activeLink,
@@ -144,6 +155,8 @@ export default defineComponent({
             showLoader,
             updateUserMessage,
             closeModal,
+            searchText,
+            searchHospitals,
         }
     }
 })
@@ -171,9 +184,8 @@ export default defineComponent({
     grid-area: header;
     padding: 0 40px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     width: 100%;
 }
@@ -195,7 +207,7 @@ export default defineComponent({
 }
 
 .active .bxs-grid-alt,
-.active .bxs-calendar,
+.active .bxs-user,
 .active .bxs-plus-square,
 .active .bxs-conversation,
 .active .bx-support,
@@ -296,8 +308,8 @@ export default defineComponent({
 
 .search-and-profile {
     display: flex;
-    justify-content: flex-end;
-    /* gap: 10px; */
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
     width: calc(100% - 250px);
 }

@@ -8,6 +8,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import { getLGAFromStorage } from "@/utils/getUserInfoFromStorage";
 
 export default createStore({
   state: {
@@ -110,31 +111,30 @@ export default createStore({
           where("hospital.state", "==", payload)
         );
         const querySnapshot = await getDocs(q);
-        // type hospitalObj = {
-        //   hospital: {
-        //     LGA: string;
-        //     facilityCode: string;
-        //     facilityLevel: string;
-        //     facilityName: string;
-        //     facilityUID: string;
-        //     ownership: string;
-        //     state: string;
-        //     ward: string;
-        //   };
         const hospitals: any[] = [];
         querySnapshot.forEach((doc) => {
           hospitals.push(doc.data());
         });
         if (hospitals.length > 0) {
           // console.log("Hospitals in this state");
+          if (!getLGAFromStorage()) {
+            commit("updateUserLGA", hospitals[0].hospital.LGA);
+            localStorage.setItem(
+              "LGA",
+              JSON.stringify(hospitals[0].hospital.LGA)
+            );
+          }
           localStorage.setItem("hospitals", JSON.stringify(hospitals));
           commit("setHospitals", hospitals);
+          commit("setUpdatingUserStatus", false);
         } else {
           // console.log("No hospitals in this state");
           commit("setHospitals", []);
+          commit("setUpdatingUserStatus", false);
         }
       } catch (error) {
         console.log(error);
+        commit("setUpdatingUserStatus", false);
       }
     },
   },

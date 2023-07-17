@@ -57,7 +57,7 @@ export default defineComponent({
     provide('showMobileNav', showMobileNav);
     provide('toggleMobileNav', toggleMobileNav);
 
-    const routeNames = ["Sign-Up", "Sign-In", "Forgot-Password", "Dashboard", "Main-Dashboard", "Profile", "Create-Hospital", "Calendar", "Chat", "Support", "Error-page"];
+    const routeNames = ["Sign-Up", "Sign-In", "Forgot-Password", "Dashboard", "Main-Dashboard", "Profile", "Create-Hospital", "Admin", "Chat", "Support", "Error-page"];
 
     const onCheckRoute = () => {
       if (routeNames.includes(route.name as string)) {

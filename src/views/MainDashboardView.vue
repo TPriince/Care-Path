@@ -3,13 +3,6 @@
         <div class="overview">
             <div class="title">
                 <h1 class="section__title">Overview</h1>
-                <select name="date" id="date" class="dropdown">
-                    <option value="today">Today</option>
-                    <option value="lastweek">Last week</option>
-                    <option value="lastmonth">Last Month</option>
-                    <option value="lastyear">Last Year</option>
-                    <option value="alltime">All Time</option>
-                </select>
             </div>
             <div class="cards">
                 <div class="card card-1">
@@ -74,10 +67,20 @@
             <div class="title">
                 <h1 class="section__title">Hospitals</h1>
                 <div class="filter-hospital-section">
-                    <p>Filter by LGA</p>
-                    <select name="lga" id="lga" class="dropdown" v-model="localGovernmentArea">
-                        <option v-for="(lga, index) in lgasArr" :key="index" :value="lga">{{ lga }}</option>
-                    </select>
+                    <div>
+                        <!-- <p>Filter by State</p> -->
+                        <select name="state" id="state" class="dropdown" :value="selectedState" @change="changeState">
+                            <option value="" hidden>Change State</option>
+                            <option v-for="(state, index) in allStatesArr" :key="index" :value="state">{{ state }}</option>
+                        </select>
+                    </div>
+                    <div class="filter-by-lga">
+                        <!-- <p>Filter by LGA</p> -->
+                        <select name="lga" id="lga" class="dropdown" v-model="localGovernmentArea">
+                            <option value="" hidden>Filter vy LGA</option>
+                            <option v-for="(lga, index) in lgasArr" :key="index" :value="lga">{{ lga }}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="table-wrapper" v-show="lgaHospitals.length > 0">
@@ -92,6 +95,7 @@
                             <th>Facility Code</th>
                             <th>Ownership</th>
                             <th>Facility UID</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,10 +108,10 @@
                             <td>{{ hospital.hospital.facilityCode }}</td>
                             <td>{{ hospital.hospital.ownership }}</td>
                             <td>{{ hospital.hospital.facilityUID }}</td>
-                            <!-- <td>
-                            <button class="edit-btn"><i class='bx bx-edit-alt'></i></button>
-                            <button class="delete-btn"><i class='bx bx-trash'></i></button>
-                        </td> -->
+                            <td>
+                                <button class="share-btn"><i class='bx bxs-share-alt'></i></button>
+                                <!-- <button class="delete-btn"><i class='bx bx-trash'></i></button> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,7 +124,7 @@
             </div>
             <div class="no-data" v-show="hospitals.length > 0 && lgaHospitals.length === 0">
                 <div>
-                    <h2>No hospitals Found in this Local Goverment Area. Try filtering by LGA.</h2>
+                    <h2>No hospitals found in this Local Goverment Area. Try filtering by LGA.</h2>
                 </div>
             </div>
             <div class="no-data" v-if="hospitals.length === 0">
@@ -135,6 +139,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { allStates } from '@/utils/getAllStates';
 
 export default defineComponent({
     name: 'MainDashboardView',
@@ -155,6 +160,7 @@ export default defineComponent({
 
         const lgas = computed(() => hospitals.value.map((h: any) => h.hospital.LGA));
         const lgasArr = ref(Array.from(new Set(lgas.value)));
+        lgasArr.value.sort();
         const PER_PAGE = 10;
         const page = ref(1);
         const pages = ref(1);
@@ -189,6 +195,16 @@ export default defineComponent({
             from.value = page.value * PER_PAGE - PER_PAGE;
         }
 
+        const allStatesArr = ref(allStates);
+        const selectedState = ref('');
+
+        const changeState = (e: Event) => {
+            selectedState.value = (e.target as HTMLInputElement).value;
+            localStorage.removeItem('LGA');
+            store.dispatch('getHospitals', selectedState.value);
+            store.commit('setUpdatingUserStatus', true);
+        }
+
         return {
             hospitals,
             lgaHospitals,
@@ -200,6 +216,9 @@ export default defineComponent({
             buttonPages,
             handleSetPage,
             currentPage,
+            allStatesArr,
+            selectedState,
+            changeState
         }
     },
 })
@@ -350,9 +369,14 @@ export default defineComponent({
 
 .filter-hospital-section {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    /*align-items: center;*/
+    gap: 10px;
 }
+
+/*.filter-hospital-section p {
+    text-align: center;
+    font-weight: var(--font-semi-bold);
+}*/
 
 .no-data {
     margin-top: 20px;
@@ -390,6 +414,10 @@ td {
     padding-block: 10px;
 }
 
+tr td:last-child {
+    text-align: center;
+}
+
 thead {
     position: sticky;
     top: 0;
@@ -406,6 +434,10 @@ tbody tr {
 
 tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
+}
+
+.bxs-share-alt {
+    font-size: 1.2rem;
 }
 
 .page-btns-wrapper {
