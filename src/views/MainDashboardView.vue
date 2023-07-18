@@ -210,7 +210,7 @@ export default defineComponent({
         const shareDetails = (hName: string, hWard: string, hLGA: string, hState: string) => {
             const shareData = {
                 title: 'Hospital Details',
-                text: `Hospital Details: ${hName} in ${hWard}, ${hLGA}, ${hState}`,
+                text: `Hospital Details: ${hName} in ${hWard}, ${hLGA}, ${hState} state`,
                 url: 'https://care-path.vercel.app/',
             }
             navigator.share(shareData)
