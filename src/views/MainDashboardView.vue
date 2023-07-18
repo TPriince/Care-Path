@@ -109,7 +109,9 @@
                             <td>{{ hospital.hospital.ownership }}</td>
                             <td>{{ hospital.hospital.facilityUID }}</td>
                             <td>
-                                <button class="share-btn"><i class='bx bxs-share-alt'></i></button>
+                                <button class="share-btn"
+                                    @click="shareDetails(hospital.hospital.facilityName, hospital.hospital.ward, hospital.hospital.LGA, hospital.hospital.state)"><i
+                                        class='bx bxs-share-alt'></i></button>
                                 <!-- <button class="delete-btn"><i class='bx bx-trash'></i></button> -->
                             </td>
                         </tr>
@@ -205,6 +207,17 @@ export default defineComponent({
             store.commit('setUpdatingUserStatus', true);
         }
 
+        const shareDetails = (hName: string, hWard: string, hLGA: string, hState: string) => {
+            const shareData = {
+                title: 'Hospital Details',
+                text: `Hospital Details: ${hName} in ${hWard}, ${hLGA}, ${hState}`,
+                url: 'https://care-path.vercel.app/',
+            }
+            navigator.share(shareData)
+                .then(() => console.log('Shared successfully'))
+                .catch((error) => console.log('Error sharing', error));
+        }
+
         return {
             hospitals,
             lgaHospitals,
@@ -218,7 +231,8 @@ export default defineComponent({
             currentPage,
             allStatesArr,
             selectedState,
-            changeState
+            changeState,
+            shareDetails,
         }
     },
 })
@@ -434,6 +448,10 @@ tbody tr {
 
 tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
+}
+
+.share-btn {
+    background-color: transparent;
 }
 
 .bxs-share-alt {
